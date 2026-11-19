@@ -1,6 +1,6 @@
 # AERIX, the free pack
 
-The landing page, the 3D drone and every prompt from my video **First Impression on Astra 6.2**, sponsored by Higgsfield.
+The landing page, the 3D drone and every prompt from my video **[Is GPT Astra 6.2 Better? A Blender Drone and a 3D Landing Page](https://youtu.be/JVO5MSEi2LI)**, sponsored by Higgsfield.
 
 **Open it online:** https://sam1983aing.github.io/aerix-pack/
 
@@ -58,4 +58,4 @@ RILL was built from the measurements of a real foldable camera drone, then given
 
 ## Find me
 
-[X](https://x.com/SammmAing) · [LinkedIn](https://www.linkedin.com/in/samnang-aing-639168341/) · [Threads](https://www.threads.com/@prompting_lab/) · [Instagram](https://www.instagram.com/samnang.aing/)
+[YouTube](https://youtu.be/JVO5MSEi2LI) · [X](https://x.com/SammmAing) · [LinkedIn](https://www.linkedin.com/in/samnang-aing-639168341/) · [Threads](https://www.threads.com/@prompting_lab/) · [Instagram](https://www.instagram.com/samnang.aing/)
