@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AERIX Vocabulary</title>
+<link rel="icon" href="../page/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../sheets/aerix-sheet.css">
+</head><body>
+<div class="wrap">
+<header class="top"><a class="wordmark" href="../index.html">AERIX<sup>®</sup></a><nav class="sheets"><a href="../index.html">Pack</a><a href="../sheets/vocabulary.html" aria-current="page">Vocabulary</a><a href="../sheets/prompts.html">Prompts</a><a href="../AERIX.html" data-online="../page/index.html">Landing page</a><a href="../model/RILL-viewer.html">RILL model</a></nav></header>
+<section class="intro"><span class="label">Free pack · Vocabulary</span>
+<h1>The words for every effect on the page.</h1>
+<p>Each technique in the AERIX page, in scroll order, with its name, what it does and a prompt you can paste straight into your coding agent.</p>
+<p>Once you know the name of an effect, you can ask for it. Paste one prompt at a time into an existing page, then adjust the numbers until it feels right.</p></section>
+<div class="terms"><article class="term panel" id="t01">
+<figure><img src="shots/loader.jpg" alt="Loader inside the hero on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">01</span>
+<h2>Loader inside the hero</h2>
+<span class="label">Also called <b>Preloader as an intro</b></span>
+<p class="what">Instead of a separate loading screen, the page loads inside the hero itself. The drone waits on its platform in the dark while a counter runs to 100, then the lights come up on the real scene, so you go straight from dark into light.</p>
+<span class="label">On the page · 00 Pre-flight, the first seconds</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Replace my loading screen with a loader that lives inside the hero. While the 3D model loads, show the real hero scene in near darkness with a small counter from 0 to 100 tied to the actual loading progress. When it reaches 100, bring the lights up in order: a rim light first to draw the silhouette, then the key light, over about 2.5 seconds with a slow ease-out. Keep the camera still and hand straight over to the hero, with no fade to another screen.</pre></div>
+</div></article><article class="term panel" id="t02">
+<figure><img src="shots/rolodex.jpg" alt="Rolodex title on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">02</span>
+<h2>Rolodex title</h2>
+<span class="label">Also called <b>3D text flip, rotating word drum</b></span>
+<p class="what">The hero title sits on a 3D drum and flips through its words like a Rolodex before it lands on ASCENT.</p>
+<span class="label">On the page · 00 Pre-flight, the hero title</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Make my hero title a Rolodex: put three words on the faces of a 3D drum and flip it one word at a time, each flip about 0.6 s with a heavy ease-out and a small overshoot, landing on [MY WORD]. Shade the faces as they turn away so it reads as a real drum. Use CSS 3D transforms (perspective and rotateX), not a canvas, and keep the final word readable for screen readers.</pre></div>
+</div></article><article class="term panel" id="t03">
+<figure><img src="shots/particles-b.jpg" alt="Particle dissolve on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">03</span>
+<h2>Particle dissolve</h2>
+<span class="label">Also called <b>Text to particles, disintegration</b></span>
+<p class="what">The big word ASCENT breaks apart into particles as you scroll away from it. Once it has gone, it stays gone until you scroll back up.</p>
+<span class="label">On the page · 00 Pre-flight, as you start to scroll</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>When my big hero heading [ASCENT] leaves, make it break apart into particles. Sample the text&#x27;s pixels into a few thousand points on a WebGL layer above the page, and as the visitor scrolls, push each point up and outward with a little random drift while it fades. Tie the dissolve to the scroll position so scrolling back up gathers the word again, and once it has fully dissolved, hide the real text so it never pops back.</pre></div>
+</div></article><article class="term panel" id="t04">
+<figure><img src="shots/cards.jpg" alt="Scroll-driven 3D on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">04</span>
+<h2>Scroll-driven 3D</h2>
+<span class="label">Also called <b>Scrollytelling, one camera and one model</b></span>
+<p class="what">One 3D scene for the whole page. Scrolling moves the story forward and the drone and the camera follow, so the page is one takeoff instead of a stack of sections.</p>
+<span class="label">On the page · The whole page</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Build my landing page as one Three.js scene behind the content, with one camera and one model for the whole page. Map the scroll position to a single story value from 0 to 1, and drive the model, the camera and each section&#x27;s text from that one number, so everything stays in sync scrolling down and back up. Use Lenis for smooth, weighted scrolling and GSAP ScrollTrigger to read the position.</pre></div>
+</div></article><article class="term panel" id="t05">
+<figure><img src="shots/rotors.jpg" alt="Rotor blur and banking on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">05</span>
+<h2>Rotor blur and banking</h2>
+<span class="label">Also called <b>Fake motion blur, flight sway</b></span>
+<p class="what">In the model the blades don&#x27;t move. On the page they turn into soft spinning discs and the drone banks a little as it climbs, so it really feels like it&#x27;s flying.</p>
+<span class="label">On the page · 01 Departure, lift-off</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>My drone model&#x27;s propellers are static. When it takes off, fade each blade out and fade in a thin semi-transparent disc with a radial blur texture in its place, spinning fast, so it reads as rotors at speed. While the drone climbs with the scroll, add a slight bank and pitch (2 to 4 degrees) that follows the scroll speed and eases back to level when the scroll stops.</pre></div>
+</div></article><article class="term panel" id="t06">
+<figure><img src="shots/particles-a.jpg" alt="Progress rail on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">06</span>
+<h2>Progress rail</h2>
+<span class="label">Also called <b>Scroll progress, chapter navigation</b></span>
+<p class="what">A thin rail on the right shows how far into the flight you are, with a node for each chapter that you can click.</p>
+<span class="label">On the page · The right edge, the whole way down</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Add a thin vertical progress rail on the right edge of my page: one small node per chapter, a line that fills as the visitor scrolls, and the current chapter&#x27;s number and name next to the active node (like 03 / 08 ENERGY). Clicking a node smooth-scrolls to its chapter. Hide the browser&#x27;s own scrollbar but keep this rail.</pre></div>
+</div></article><article class="term panel" id="t07">
+<figure><img src="shots/cards-scan.jpg" alt="Card scan reveal on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">07</span>
+<h2>Card scan reveal</h2>
+<span class="label">Also called <b>Scanline wipe, clip-path reveal</b></span>
+<p class="what">Each card draws itself from top to bottom with a scan line. The blueprint drawing inside is an image, but the scan, the corner marks and the light running round the frame are all code.</p>
+<span class="label">On the page · 01 Departure, the three cards</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Reveal each info card with a scan: a bright horizontal line sweeps from top to bottom over about 0.9 s and uncovers the card behind it (animate clip-path inset from 100% to 0), then small corner brackets snap into the corners and a thin light runs once around the border. Fade the card&#x27;s drawing in behind the scan. Trigger it when the card first becomes visible, and use the same reveal on every card so the page feels consistent.</pre></div>
+</div></article><article class="term panel" id="t08">
+<figure><img src="shots/cards.jpg" alt="Text decode on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">08</span>
+<h2>Text decode</h2>
+<span class="label">Also called <b>Text scramble effect</b></span>
+<p class="what">The small labels decode letter by letter like a scramble. On a tech product it feels much better than a soft fade.</p>
+<span class="label">On the page · Every label on the page</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Add a text scramble to all the small uppercase labels on my page: when a label appears, each letter cycles through random characters (A to Z, 0 to 9 and a few symbols like / and #) and settles on the real letter from left to right, over about 0.5 s. Keep the label&#x27;s width fixed while it scrambles so nothing jumps. Run it each time a label first appears, and again when a step in a stepper becomes the current one.</pre></div>
+</div></article><article class="term panel" id="t09">
+<figure><img src="shots/nav-hover.jpg" alt="Menu hover on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">09</span>
+<h2>Menu hover</h2>
+<span class="label">Also called <b>Hover micro-interaction</b></span>
+<p class="what">Hovering a menu link re-decodes the word while a thin line draws under it and a small glowing dot flies to its end.</p>
+<span class="label">On the page · The header menu</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Give my header menu links a hover that fits a flight theme: on hover, re-run the text scramble on the link, draw a 1 px line under it from left to right in 0.3 s, and send a small glowing dot along that line to its end. On mouse out the line pulls back. Skip all of it for visitors who prefer reduced motion.</pre></div>
+</div></article><article class="term panel" id="t10">
+<figure><img src="shots/landing.jpg" alt="Type and colour for a tech product on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">10</span>
+<h2>Type and colour for a tech product</h2>
+<span class="label">Also called <b>Design system, theme</b></span>
+<p class="what">The font, the colours and the text animation all have to fit the product. Here it&#x27;s a wide, squared display font, a calm sans for reading, a mono for labels and a cool navy and blue palette. Pick them at the start.</p>
+<span class="label">On the page · Everywhere</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Set up a type and colour system for a high-tech product page: a wide, squared display font for the logo and the menu (like Michroma), a clean sans for body text (like Instrument Sans), and a mono for small uppercase labels with wide letter spacing (like IBM Plex Mono). Palette: deep navy backgrounds (#07111f to #0b1a2e), one cool blue accent (#6aa8e8) and pale blue text (#cfe4ff). On text, use decodes and quick slide-ups, never soft fades or slow blurs.</pre></div>
+</div></article><article class="term panel" id="t11">
+<figure><img src="shots/optics.jpg" alt="Glass panels on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">11</span>
+<h2>Glass panels</h2>
+<span class="label">Also called <b>Glassmorphism</b></span>
+<p class="what">The cards are dark glass over the 3D scene, so the drone and the worlds stay visible behind the text.</p>
+<span class="label">On the page · Every card</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Style my cards as dark glass panels over the 3D scene: background rgba(10, 26, 46, 0.55), a backdrop blur of 14 px, a 1 px border in pale blue at low opacity, a faint highlight along the top edge and a 10 px corner radius. Keep the text crisp and the contrast high enough to read over bright backgrounds.</pre></div>
+</div></article><article class="term panel" id="t12">
+<figure><img src="shots/exploded.jpg" alt="Exploded view on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">12</span>
+<h2>Exploded view</h2>
+<span class="label">Also called <b>Layer separation, exploded diagram</b></span>
+<p class="what">As it flies up, the drone opens into its layers. It only works because every part was planned and modelled first, and it&#x27;s what gives the page its premium feel.</p>
+<span class="label">On the page · 02 Anatomy</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Use my model&#x27;s real parts to make an exploded view: as the visitor scrolls through this chapter, move each layer [shell, battery, cooling, flight computer, frame] apart along one axis with even gaps, staggered so the outer layers move first, then bring them back together on the way out. Keep the camera slowly orbiting so the depth reads, and keep every part&#x27;s own materials.</pre></div>
+</div></article><article class="term panel" id="t13">
+<figure><img src="shots/pins-computer.jpg" alt="Numbered pins on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">13</span>
+<h2>Numbered pins</h2>
+<span class="label">Also called <b>Numbered callouts, hotspots</b></span>
+<p class="what">Instead of lines pointing everywhere, each part gets a number that matches its label, which looks much cleaner.</p>
+<span class="label">On the page · 02 Anatomy and 04 Intelligence</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Label the parts of my exploded view with numbered pins instead of leader lines. Every frame, project each part&#x27;s centre from 3D to the screen and draw a small glowing disc with its number (01, 02, 03) there, with a soft pulse on the active one. Show the matching numbered labels in a panel at the side, and highlight a pin and its label together as that part becomes current.</pre></div>
+</div></article><article class="term panel" id="t14">
+<figure><img src="shots/wireframe.jpg" alt="Wireframe scan on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">14</span>
+<h2>Wireframe scan</h2>
+<span class="label">Also called <b>Scan reveal, wireframe sweep</b></span>
+<p class="what">On the close-ups, a bright band sweeps up through each part with a wireframe of the same mesh trailing behind it.</p>
+<span class="label">On the page · 03 Energy, 04 Intelligence, 05 Optical axis</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>When a 3D close-up comes into view, run a scan through the model: a bright horizontal band moves from the bottom to the top of the part over about 1.7 s, briefly darkening what it has passed, while a thin wireframe copy of the same meshes trails just behind the band and fades out. Add the band to every material with onBeforeCompile so the original materials stay untouched.</pre></div>
+</div></article><article class="term panel" id="t15">
+<figure><img src="shots/lens.jpg" alt="Lens portal on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">15</span>
+<h2>Lens portal</h2>
+<span class="label">Also called <b>Portal transition, fly-through mask</b></span>
+<p class="what">The camera flies into the drone&#x27;s lens. For a second you&#x27;re right at the entrance and see its edge, then you&#x27;re looking out over a city at night.</p>
+<span class="label">On the page · 06 First person</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Move into the drone&#x27;s point of view by flying through its lens: push the camera toward the camera lens, then show the next scene inside a circle that matches the lens opening (a CSS clip-path circle), with the real lens rim still visible around it. Hold for a beat so the visitor sees the edge, then grow the circle past the corners of the screen as the camera keeps pushing in.</pre></div>
+</div></article><article class="term panel" id="t16">
+<figure><img src="shots/worlds.jpg" alt="Drone-view worlds on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">16</span>
+<h2>Drone-view worlds</h2>
+<span class="label">Also called <b>AI video backgrounds, video texture</b></span>
+<p class="what">Behind the drone, each world is a 5 second clip made with Seedance 2.5 on Higgsfield and upscaled to 4K. In this pack they&#x27;re the September stills, and the clip prompts are on the prompt sheet.</p>
+<span class="label">On the page · 07 Open sky</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Play a muted 5 second video behind my 3D drone for each world in this chapter. Load each clip as a THREE.VideoTexture into the background shader, show its first frame as a still until it plays, start it as its world begins to fade in, play it once and hold the last frame. Load the clips in the background a chapter early, and only ever play one at a time.</pre></div>
+</div></article><article class="term panel" id="t17">
+<figure><img src="shots/clip-wait.jpg" alt="Clip wait on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">17</span>
+<h2>Clip wait</h2>
+<span class="label">Also called <b>Scroll hold, scroll lock</b></span>
+<p class="what">The page waits for each clip to finish before you can scroll on, with a little line filling up under the steps, so every scene plays as one continuous shot.</p>
+<span class="label">On the page · 07 Open sky</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Make my page wait for each world&#x27;s video before the visitor can scroll on. When the scroll reaches the end of a world, ease to a stop (Lenis scrollTo with lock: true), then lenis.stop() until the video ends, and let go about half a second before the end so the next world fades in on a moving shot. Show the wait as a line filling between the step icons. Only hold when scrolling forward, never on the way back up, and let menu clicks skip the waits.</pre></div>
+</div></article><article class="term panel" id="t18">
+<figure><img src="shots/crossfade.jpg" alt="Crossfade between worlds on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">18</span>
+<h2>Crossfade between worlds</h2>
+<span class="label">Also called <b>Dissolve transition</b></span>
+<p class="what">Each world dissolves into the next in one shader, and the captions take turns through the same dissolve so they never overlap.</p>
+<span class="label">On the page · 07 Open sky</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Blend my background worlds in a single fragment shader: pass every world texture plus one mix value per transition, and dissolve from one to the next over a short stretch of scroll with a smoothstep ease. Cross the captions on the same timing so the old caption is gone before the new one appears.</pre></div>
+</div></article><article class="term panel" id="t19">
+<figure><img src="shots/pointer.jpg" alt="Pointer flight on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">19</span>
+<h2>Pointer flight</h2>
+<span class="label">Also called <b>Mouse parallax, pointer follow</b></span>
+<p class="what">On the last view the drone follows your mouse a little, as if you&#x27;re flying it, so it never stands still.</p>
+<span class="label">On the page · 07 Open sky, the last view</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>Let the visitor fly my drone a little with the mouse: map the pointer position to a small offset and tilt (up to about 6 degrees of bank toward the pointer and a short drift), smoothed with a lerp so it feels weighted, and add a slow idle hover so it never stands completely still.</pre></div>
+</div></article><article class="term panel" id="t20">
+<figure><img src="shots/finishes.jpg" alt="Landing and finish picker on the AERIX page" loading="lazy"></figure>
+<div class="body">
+<span class="num">20</span>
+<h2>Landing and finish picker</h2>
+<span class="label">Also called <b>Product configurator, colourways</b></span>
+<p class="what">The drone slowly lands back on the platform it took off from, and you can switch it between five finishes.</p>
+<span class="label">On the page · 08 Further</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>End my page with the drone landing back on its launch platform, then add a finish picker: five rounded-square swatches with a brushed-metal look (layered gradients for the gloss and the grain), and clicking one changes the drone&#x27;s body colour and roughness with a short 0.6 s blend. Show the finish name and the price next to the swatches.</pre></div>
+</div></article><article class="term panel" id="t21">
+<figure><div class="none">NO STILL<br>THIS ONE HAPPENS<br>BEHIND THE SCENES</div></figure>
+<div class="body">
+<span class="num">21</span>
+<h2>Staged loading</h2>
+<span class="label">Also called <b>Progressive loading, streaming</b></span>
+<p class="what">Bonus, not in the video. The drone shows up from a light 7 MB file first, and its inside parts and full textures stream in while you scroll, instead of one huge file before the first frame.</p>
+<span class="label">On the page · Behind the scenes</span>
+<div class="prompt"><div class="label"><span>Copy-paste prompt</span><button class="copy" type="button">Copy prompt</button></div><pre>My 3D model is too heavy to load before the first frame. Split it into a light hero file (the outside, small textures) and a details file (the inside parts), list them in a manifest, and load the hero first. Stream the details and the full-size textures in the background through one queue, most urgent first, one at a time, and swap them in without a visible jump.</pre></div>
+</div></article></div>
+<footer><p>Made by Sam Aing for the video First Impression on Astra 6.2, sponsored by Higgsfield.</p><p><a href="https://x.com/SammmAing">X</a> · <a href="https://www.linkedin.com/in/samnang-aing-639168341/">LinkedIn</a> · <a href="https://www.threads.com/@prompting_lab/">Threads</a> · <a href="https://www.instagram.com/samnang.aing/">Instagram</a></p></footer>
+</div>
+<div class="lightbox"><img alt=""></div>
+<script src="../sheets/aerix-sheet.js"></script>
+</body></html>
