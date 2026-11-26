@@ -1,0 +1,1440 @@
+/* ThreeUI polish, layer 1 of 4: UI refresh. Ported from the ThreeUI AERIX edition (Sep 2026). Loads after styles.css. */
+/* V5 — UI refresh: a 12px type floor, a readable journey rail and one blueprint icon family.
+   Icons and drawings are transparent PNGs in ./assets/. */
+:root {
+  --ui-label: #c3d8ea;
+  --ui-tile-border: #b9dcf340;
+  --ui-tile-bg: linear-gradient(150deg, #243c5e99, #0c1726e6 72%);
+}
+
+/* ---------- Icon tiles and drawings ---------- */
+i.ui-tile {
+  --tile: 40px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: var(--tile);
+  height: var(--tile);
+  border: 1px solid var(--ui-tile-border);
+  border-radius: calc(var(--tile) * .26);
+  background: var(--ui-tile-bg);
+  box-shadow: inset 0 1px 0 #eaf6ff26, 0 8px 20px #0208123d;
+  font-style: normal;
+  vertical-align: middle;
+  transition: border-color .4s ease, box-shadow .4s ease, opacity .4s ease;
+}
+i.ui-tile img { display: block; width: 74%; height: 74%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 0 3px #8fcdf573); }
+i.ui-tile.is-lit,
+.is-current > i.ui-tile {
+  border-color: #d8edffa6;
+  box-shadow: inset 0 1px 0 #f4faff45, 0 0 0 3px #aacde817, 0 0 20px #86c2ef5c;
+}
+.blueprint { display: block; max-width: 100%; height: auto; pointer-events: none; user-select: none; }
+
+/* ---------- Type floor: nothing under 12px on desktop ---------- */
+.mono, .eyebrow, .text-link, .detail-note, .chapter-caption { font-size: 12px; }
+.eyebrow { letter-spacing: .13em; }
+body.is-live .glass-chapter .eyebrow,
+body.is-live .flight-card .eyebrow,
+body.is-live .optics-chapter .optics-overview .eyebrow,
+body.is-live .optics-chapter .optics-path-card .eyebrow,
+body.is-live .sky-chapter .eyebrow { font-size: 12px; letter-spacing: .13em; color: var(--ui-label); }
+.hero .eyebrow { font-size: 13px; letter-spacing: .16em; color: #cfe2f1; }
+.site-header nav, .header-explore { font-size: 12px; }
+.wordmark span { font-size: 12px; }
+.hero-subline { font-size: 13px; opacity: .92; color: #c2d3e2; }
+.hero-finish-name { color: #d3e1ed; }
+.hero-title-skip { font-size: 12px; }
+.scroll-cue { font-size: 13px; letter-spacing: .12em; }
+.text-link { font-size: 13px; }
+body.is-live .glass-chapter .detail-note,
+body.is-live .glass-chapter .material-key { font-size: 12px; letter-spacing: .1em; }
+.architecture-detail-label p { font-size: 12px; line-height: 1.75; color: #c3dcef; }
+.architecture-detail-label p span { color: #9fb8cc; }
+body.is-live .architecture-chapter .layer-key li span { font-size: 13px; letter-spacing: .1em; color: #8098ad; }
+body.is-live .architecture-chapter .layer-key li.is-seen span { color: #a9c2d6; }
+body.is-live .architecture-chapter .layer-key li.is-current span { color: #e2f1fc; }
+.anatomy-label .anatomy-code,
+#model-labels.is-compact .anatomy-code { font-size: 12px; }
+.anatomy-label h3 { font-size: clamp(19px, 1.5vw, 24px); }
+.anatomy-label .anatomy-note { font-size: clamp(13px, .98vw, 15px); color: #bccbd9; }
+.bridge-caption { font-size: 13px; }
+.power-numbers .mono { font-size: 12px; }
+.power-specifications dt { font-size: 15px; }
+.power-specifications dd { font-size: 14px; }
+.power-duration dd { font-size: 13px; color: #c9dcea; font-family: var(--mono); }
+.circuit-details dt span { font-size: 12px; }
+.circuit-details dd { font-size: 14px; }
+.performance-heading p,
+.performance-code,
+#performance-labels.is-compact .performance-code { font-size: 12px; }
+.performance-note { font-size: clamp(13px, .98vw, 15px); }
+.performance-source span { font-size: 12px; }
+body.is-live .optics-chapter .optics-overview .detail-note { font-size: 12px; }
+body.is-live .optics-path-steps strong { font-size: 16px; }
+body.is-live .optics-path-steps p { font-size: 14px; }
+.optical-meta { font-size: 12px; }
+.finish-heading .mono { font-size: 12px; }
+.purchase-price small { font-size: 12px; }
+.replay, body.is-live .finale .replay { font-size: 13px; }
+.final-footer, body.is-live .final-footer, .final-footer .mono { font-size: 13px; }
+body.is-live .final-footer { opacity: .85; }
+body.is-live .flight-card .detail-note { font-size: 12px; }
+.journey-detail > div { font-size: 12px; }
+.fold-detail p { font-size: clamp(14px, 1.05vw, 16px); }
+.world-stops { font-size: 13px; }
+.hero-bottom > .hero-title-skip.mono { font-size: 12px; }
+.pov-chapter .eyebrow,
+body.is-live .pov-chapter .eyebrow,
+body.is-static .pov-chapter .eyebrow { font-size: 12px; }
+body.is-live .architecture-chapter .text-link { font-size: 13px; }
+@media (min-width: 761px) and (max-height: 800px) {
+  body.is-live .flight-card .eyebrow { font-size: 12px; }
+  .architecture-detail-note { font-size: 12px; }
+  .journey-detail > div { font-size: 12px; }
+  .fold-detail p { font-size: 13px; }
+}
+@media (max-width: 1099px), (max-aspect-ratio: 13/10), (max-height: 639px) {
+  body.is-live .architecture-chapter .layer-key li span { font-size: 12px; letter-spacing: .04em; }
+}
+@media (max-width: 760px) {
+  .mono, .eyebrow, .detail-note { font-size: 11px; }
+  html body.is-live .finale .arrival-copy p.eyebrow,
+  html body .finale .arrival-copy p.eyebrow { font-size: 11px; }
+  html body.is-live .purchase-actions button.detail-button,
+  html body .purchase-actions button.detail-button { font-size: 12px; }
+  html body.is-live .flight-card .optical-detail p.optical-description,
+  html body .flight-card .optical-detail p.optical-description { font-size: 11.5px; }
+  body.is-live .flight-card .eyebrow,
+  body.is-live .sky-chapter .eyebrow,
+  body.is-live .glass-chapter .eyebrow { font-size: 11px; }
+  body.is-live .flight-pagination, .world-stops { font-size: 11px; }
+  #performance-labels.is-compact .performance-code,
+  #model-labels.is-compact .anatomy-code { font-size: 11px; }
+  body.is-live .optics-chapter .optics-overview .detail-note { font-size: 11px; }
+  body.is-live .architecture-chapter .layer-key li span { font-size: 11px; }
+  .power-numbers .mono { font-size: 11px; }
+}
+
+/* ---------- Journey rail (replaces the altimeter) ---------- */
+.altimeter, .journey-coordinate { display: none !important; }
+.journey-rail {
+  position: fixed;
+  z-index: 26;
+  right: 34px;
+  top: 50%;
+  width: 16px;
+  height: min(340px, 44vh);
+  transform: translate3d(0, -50%, 0);
+  transition: transform .8s cubic-bezier(.2, .75, .15, 1), opacity .5s ease, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+body.is-live .journey-rail { opacity: 1; visibility: visible; }
+body.is-booting .journey-rail,
+body.is-title-revealing .journey-rail,
+body.in-explorer .journey-rail,
+body.in-preorder .journey-rail { opacity: 0; visibility: hidden; }
+.journey-rail-track { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); background: #aacde838; }
+.journey-rail-fill {
+  position: absolute; left: 0; top: 0; width: 1px;
+  height: calc(var(--rail-progress, 0) * 100%);
+  background: linear-gradient(#9cc7e6, #e4f3ff);
+  box-shadow: 0 0 8px #8fc8f2b3;
+}
+.journey-rail ol { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.journey-rail li { position: absolute; left: 50%; top: calc(var(--i) * 12.5%); width: 0; height: 0; }
+.journey-rail a { position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border-radius: 50%; pointer-events: auto; color: inherit; }
+.rail-node {
+  position: absolute; left: 50%; top: 50%;
+  width: 7px; height: 7px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: #0b1422;
+  border: 1px solid #aacde88c;
+  transition: width .3s ease, height .3s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.journey-rail li.is-complete .rail-node { background: #aacde8; border-color: #aacde8; }
+.journey-rail li.is-current .rail-node {
+  width: 16px; height: 16px;
+  border: 1.5px solid #e0f1ff;
+  background: radial-gradient(circle, #f0f8ff 0 2.5px, #0b1422 3px);
+  box-shadow: 0 0 0 4px #aacde814, 0 0 16px #8fc8f2b3;
+}
+.journey-rail a:hover .rail-node { border-color: #e0f1ff; }
+.journey-rail a:focus-visible { outline: 1px solid #e0f1ff; outline-offset: 2px; }
+.rail-label {
+  position: absolute; top: 50%; right: calc(100% + 4px);
+  display: grid; gap: 2px; justify-items: end;
+  white-space: nowrap;
+  font: 12px/1.3 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #eaf5fd;
+  text-shadow: 0 1px 8px #030a14e6;
+  opacity: 0;
+  transform: translate3d(6px, -50%, 0);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none;
+}
+.rail-label b { font-weight: 400; color: #a9c6dc; }
+.journey-rail li.is-current .rail-label,
+.journey-rail a:hover .rail-label,
+.journey-rail a:focus-visible .rail-label { opacity: 1; transform: translate3d(0, -50%, 0); }
+/* The hero shows the whole itinerary before the ascent begins. */
+.journey-rail.is-overview { transform: translate3d(-86px, -50%, 0); }
+.journey-rail.is-overview .rail-label { right: auto; left: calc(100% + 4px); justify-items: start; letter-spacing: .06em; opacity: .74; transform: translate3d(-6px, -50%, 0); }
+.journey-rail.is-overview li.is-current .rail-label { opacity: 1; transform: translate3d(0, -50%, 0); }
+/* Over the bright landscapes the rail gets a dark glass backing. */
+body.is-light .journey-rail::before { content: ""; position: absolute; inset: -22px -12px; border-radius: 12px; background: #0a1626a8; border: 1px solid #d3eaff24; }
+body.is-light .journey-rail li.is-current .rail-label { right: calc(100% + 16px); padding: 9px 12px; border-radius: 8px; background: #0a1626c4; border: 1px solid #d3eaff24; }
+@media (min-width: 1100px) { body.is-live .hero .hero-subline { margin-right: 118px; } }
+@media (max-width: 1099px) {
+  .journey-rail { right: 18px; }
+  .journey-rail .rail-label { display: none; }
+  .journey-rail.is-overview { transform: translate3d(0, -50%, 0); }
+}
+@media (max-width: 760px) {
+  .journey-rail { right: 8px; height: min(220px, 32vh); }
+  .journey-rail li.is-current .rail-node { width: 12px; height: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .journey-rail, .rail-label, .rail-node { transition: none; } }
+
+/* ---------- Hero ---------- */
+.scroll-cue { gap: 16px; }
+.scroll-cue i,
+.hero-bottom .scroll-cue i {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: url("./assets/icons/chevrons-up.webp") center / 20px no-repeat, var(--ui-tile-bg);
+  border: 1px solid #b9dcf359;
+  box-shadow: inset 0 1px 0 #eaf6ff2e, 0 0 18px #7fbde833;
+}
+.scroll-cue > span { display: none; }
+.scroll-cue:hover i { border-color: #d8edffb3; }
+.bottom-tools > span { font-size: 12px; opacity: 1; }
+.scroll-hint { display: inline-flex; align-items: center; gap: 8px; letter-spacing: .1em; color: #c3d8ea; transition: opacity .4s ease, visibility .4s; }
+.scroll-hint > span { margin-left: 8px; }
+.ui-key { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; border: 1px solid #b9dcf347; background: var(--ui-tile-bg); }
+.ui-key img { width: 22px; height: 22px; }
+body:not(.ui-at-hero) .scroll-hint { opacity: 0; visibility: hidden; }
+@media (min-width: 761px) { body.is-live .bottom-tools { opacity: 1; bottom: 72px; } }
+@media (max-width: 760px) { .scroll-hint { display: none; } }
+
+/* ---------- 01 · Three reasons ---------- */
+body.is-live .flight-chapter .flight-card { min-height: clamp(300px, 37vh, 352px); }
+.flight-card .card-tile { --tile: 44px; position: absolute; top: clamp(20px, 1.8vw, 32px); left: clamp(20px, 1.8vw, 32px); }
+.flight-card .card-tile ~ .eyebrow,
+.flight-card .card-tile ~ h2 { margin-left: 60px; }
+body.is-live .flight-card .eyebrow { margin-bottom: 10px; line-height: 1.5; }
+.journey-detail { padding-top: 12px; }
+.journey-detail .bp-route { width: 100%; }
+.journey-detail > div { margin-top: 8px; color: #bcd3e6; letter-spacing: .1em; }
+.fold-detail { display: grid; grid-template-columns: clamp(96px, 8.4vw, 128px) 1fr; grid-template-rows: auto auto; column-gap: 18px; row-gap: 6px; align-items: end; padding-top: 14px; }
+.fold-detail .bp-fold { grid-row: 1 / 3; width: 100%; align-self: center; }
+.fold-detail .fold-number { font-size: clamp(30px, 2.5vw, 40px); }
+.fold-detail p { align-self: start; }
+.optical-detail { gap: clamp(14px, 1.4vw, 22px); padding-top: 14px; }
+.optical-detail .bp-gimbal { width: clamp(88px, 7.4vw, 118px); flex-shrink: 0; }
+body.is-live .flight-pagination { font-size: 12px; letter-spacing: .12em; color: #bcd2e5; padding: 4px 3px 0; }
+.flight-pagination > span:first-child { font-size: 14px; letter-spacing: .08em; color: #9fb7cb; }
+.flight-steps { gap: 10px; }
+.flight-steps i { width: 64px; height: 3px; border-radius: 2px; background: #abcde72e; transition: background .45s ease, box-shadow .45s ease; }
+.flight-steps i.is-complete { background: #8fb6d6; }
+.flight-steps i.is-current { background: #e6f4ff; box-shadow: 0 0 12px #9fd0f5b3; }
+@media (max-width: 760px) {
+  .flight-card .card-tile { display: none; }
+  .flight-card .card-tile ~ .eyebrow, .flight-card .card-tile ~ h2 { margin-left: 0; }
+  .journey-detail, .fold-detail .bp-fold, .optical-detail .bp-gimbal { display: none; }
+  .fold-detail { grid-template-columns: auto 1fr; }
+}
+
+/* ---------- 02 · Anatomy ---------- */
+.architecture-detail-label i.ui-tile { --tile: 44px; }
+body.is-live .architecture-chapter .layer-key li { display: flex; align-items: center; gap: 14px; padding: 16px 0 0; }
+body.is-live .architecture-chapter .layer-key li i.ui-tile { --tile: 40px; opacity: .6; }
+body.is-live .architecture-chapter .layer-key li.is-seen i.ui-tile,
+body.is-live .architecture-chapter .layer-key li.is-current i.ui-tile { opacity: 1; }
+body.is-live .architecture-chapter .layer-key li::before { height: 2px; top: -1px; background: linear-gradient(90deg, #8fbde0, #e0f1ff); box-shadow: 0 0 10px #9fd0f566; }
+body:not(.is-live) .layer-key i.ui-tile { display: none; }
+.anatomy-label.has-tile { padding-left: 58px; }
+.anatomy-label > i.ui-tile { --tile: 42px; position: absolute; left: 0; top: -2px; }
+#model-labels.is-compact .anatomy-label.has-tile { padding-left: 80px; }
+#model-labels.is-compact .anatomy-label > i.ui-tile { left: 20px; top: 17px; }
+@media (max-width: 1099px), (max-aspect-ratio: 13/10), (max-height: 639px) {
+  body.is-live .architecture-chapter .layer-key li i.ui-tile { display: none; }
+}
+
+/* ---------- 03 · Energy ---------- */
+body.is-live .power-chapter .power-deck { translate: -84px 0; }
+.power-numbers > div { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.power-numbers i.ui-tile { --tile: 46px; order: -2; margin-bottom: 4px; }
+.power-numbers .mono { order: -1; }
+.power-specifications > div { position: relative; padding-left: 56px; min-height: 64px; }
+.power-specifications dt i.ui-tile { --tile: 40px; position: absolute; left: 0; top: 13px; }
+.power-specifications .power-duration { flex-wrap: wrap; row-gap: 10px; }
+.power-specifications .power-duration::after {
+  content: ""; flex: 0 0 100%; height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, #86b6dc, #dff0ff) 0 0 / 82% 100% no-repeat, #aacde824;
+  box-shadow: 0 0 10px #8fc8f233;
+}
+@media (max-width: 760px) {
+  body.is-live .power-chapter .power-deck { translate: none; }
+  .power-numbers i.ui-tile, .power-specifications dt i.ui-tile { display: none; }
+  .power-specifications > div { padding-left: 0; min-height: 0; }
+}
+
+/* ---------- 04 · Intelligence ---------- */
+.circuit-details > div { position: relative; padding-left: 54px; }
+.circuit-details dt i.ui-tile { --tile: 38px; position: absolute; left: 0; top: 13px; }
+.circuit-details dd { margin-left: 0; }
+.circuit-details dt span { color: #a9c9e1; margin-right: 8px; }
+.performance-label.has-tile { padding-left: 56px; }
+.performance-label > i.ui-tile { --tile: 42px; position: absolute; left: 0; top: -2px; }
+#performance-labels.is-compact .performance-label.has-tile { padding-left: 78px; }
+#performance-labels.is-compact .performance-label > i.ui-tile { left: 22px; top: 18px; }
+.performance-steps { display: flex; justify-content: center; width: max-content; margin: 18px auto 0; }
+.performance-steps span { position: relative; display: grid; justify-items: center; gap: 8px; width: 52px; font: 12px var(--mono); letter-spacing: .06em; color: #8fa9bf; }
+.performance-steps span::before { content: ""; width: 7px; height: 7px; border-radius: 50%; border: 1px solid #aacde899; background: #0b1422; transition: background .35s, box-shadow .35s; }
+.performance-steps span::after { content: ""; position: absolute; top: 4px; left: calc(50% + 7px); width: 38px; height: 1px; background: #aacde84d; }
+.performance-steps span:last-child::after { display: none; }
+.performance-steps span.is-lit { color: #e2f1fc; }
+.performance-steps span.is-lit::before { background: #d8edff; border-color: #d8edff; box-shadow: 0 0 10px #9fd0f599; }
+@media (max-width: 760px) { .circuit-details dt i.ui-tile { display: none; } .circuit-details > div { padding-left: 0; } }
+
+/* ---------- 05 · Optical axis ---------- */
+body.is-live .optics-chapter .optics-overview .detail-note { display: inline-flex; align-items: center; gap: 12px; letter-spacing: .12em; }
+.optics-overview .detail-note i.ui-tile { --tile: 38px; width: 38px; height: 38px; border-radius: 50%; background: var(--ui-tile-bg); box-shadow: inset 0 1px 0 #eaf6ff26; }
+.optics-overview .detail-note > span { color: #cfe6f7; font-size: 15px; }
+.optics-path-card .bp-optics { width: 100%; margin: 14px 0 12px; }
+body.is-live .optics-path-card .bp-optics { margin: auto 0 14px; max-height: 124px; object-fit: contain; }
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-cards { width: calc(100% - 64px); }
+  /* Headline beside a lens-stack drawing, the note and lede on one baseline below. */
+  body.is-live .optics-chapter .optics-overview {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    grid-template-areas: "eyebrow eyebrow" "title drawing" "note lede";
+    align-content: start;
+    gap: 18px 28px;
+  }
+  body.is-live .optics-chapter .optics-overview .eyebrow { grid-area: eyebrow; }
+  body.is-live .optics-chapter .optics-overview h2 { grid-area: title; align-self: center; }
+  body.is-live .optics-chapter .optics-overview .bp-lenses { grid-area: drawing; width: 100%; max-height: 112px; object-fit: contain; align-self: center; }
+  body.is-live .optics-chapter .optics-overview .lede { grid-area: lede; align-self: end; }
+  body.is-live .optics-chapter .optics-overview .detail-note { grid-area: note; align-self: end; }
+}
+@media (max-width: 1099px) { .optics-overview .bp-lenses { display: none; } }
+
+/* ---------- 06–07 · Optical view and open sky ---------- */
+.optical-meta, .optical-meta.right { top: calc(18% + 3px); bottom: auto; letter-spacing: .14em; opacity: .96; color: #f4faff; text-shadow: 0 1px 2px #03101fcc, 0 0 14px #03101fb3; }
+.optical-meta { left: calc(8% + 38px); }
+.optical-meta.right { left: auto; right: calc(8% + 38px); }
+.world-stops { gap: 0; margin-top: 20px; letter-spacing: .08em; }
+.world-stops li { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; border: 0; padding: 0; color: #c3d5e6b8; }
+.world-stops li::after { content: ""; position: absolute; top: 22px; left: 54px; right: 10px; height: 1px; background: #c6e1f64d; }
+.world-stops li:last-child::after { display: none; }
+.world-stops li.is-passed::after { background: #d3edffcc; }
+.world-stops li em { font-style: normal; white-space: nowrap; }
+.world-stops li em span { margin-right: 6px; opacity: .7; }
+.world-stops i.ui-tile { --tile: 44px; }
+.world-stops li.is-passed i.ui-tile { border-color: #b9dcf373; }
+.world-stops li.is-current { color: #f0f8ff; }
+@media (max-width: 760px) { .world-stops i.ui-tile { --tile: 34px; } .world-stops li::after { top: 17px; left: 42px; } }
+
+/* ---------- 08 · Arrival ---------- */
+.finish-options { gap: 12px; }
+.finish-options .finish-option { width: 44px; height: 48px; }
+.finish-options .finish-swatch { width: 36px; height: 36px; }
+.finish-features { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; max-width: 460px; margin: 20px 0 0; padding: 0; }
+.finish-features li { display: flex; align-items: center; gap: 10px; padding: 7px 14px 7px 7px; border: 1px solid #b8d3eb2e; border-radius: 8px; background: #0e1a2c99; font-size: 13px; line-height: 1.25; color: #d6e4f0; }
+.finish-features i.ui-tile { --tile: 34px; border: 0; background: none; box-shadow: none; }
+.replay, body.is-live .finale .replay { display: inline-flex; align-items: center; gap: 12px; letter-spacing: .12em; opacity: .9; }
+.replay i.ui-tile { --tile: 34px; border-radius: 50%; }
+.replay i.ui-tile img { width: 58%; height: 58%; }
+body.is-live .finale .finish-note { margin-top: 10px; }
+body.is-live .finale .finish-features { margin-top: 14px; }
+body.is-live .finale .purchase-price { margin-top: 20px; padding-top: 16px; }
+body.is-live .finale .purchase-actions { margin-top: 16px; }
+body.is-live .finale .replay { margin-top: 16px; }
+body.is-live .final-footer { border-top-color: transparent; }
+
+/* ---------- Round 2: light-blue accents, outlined tiles, drum rail ---------- */
+:root { --ui-label: #a9d0f5; --rail-gap: 54px; }
+i.ui-tile {
+  border: 1px solid #6aa8e8b8;
+  border-radius: calc(var(--tile) * .2);
+  background: linear-gradient(160deg, #16365c5c, #0a182b99);
+  box-shadow: inset 0 0 14px #6fb3f024, 0 0 14px #4f9ef01a;
+}
+i.ui-tile img { width: 66%; height: 66%; filter: drop-shadow(0 0 3px #8fcdf566); }
+i.ui-tile.is-lit,
+.is-current > i.ui-tile {
+  border-color: #bfe3ff;
+  box-shadow: inset 0 0 16px #8fcaf540, 0 0 0 3px #7fbfff14, 0 0 20px #5aaaff80;
+}
+.blueprint { filter: brightness(1.12) drop-shadow(0 0 5px #5aaaff40); }
+
+.eyebrow,
+body.is-live .glass-chapter .eyebrow,
+body.is-live .flight-card .eyebrow,
+body.is-live .optics-chapter .optics-overview .eyebrow,
+body.is-live .optics-chapter .optics-path-card .eyebrow,
+body.is-live .sky-chapter .eyebrow,
+.hero .eyebrow,
+.performance-heading p,
+.performance-code,
+.anatomy-label .anatomy-code,
+.architecture-detail-label p,
+.finish-heading .mono,
+.purchase-price small,
+.replay, body.is-live .finale .replay,
+body.is-live .flight-pagination,
+.journey-detail > div,
+.scroll-cue,
+.scroll-hint { color: #a9d0f5; }
+.architecture-detail-label p span { color: #8fb3d4; }
+.hero-finish-name { color: #b9d8f5; }
+.hero-subline > span { color: #b8d4f0; }
+.lede, body.is-live .glass-chapter .lede, body.is-live .flight-card .lede { color: #c5d8ee; }
+.anatomy-label .anatomy-note { color: #b3cae3; font-size: clamp(13px, 1vw, 15px); }
+.performance-note { color: #b9cde4; }
+.anatomy-label h3, .performance-label h3 { color: #f2f8ff; }
+.architecture-detail-note { color: #b3cae3; font-size: 14px; line-height: 1.6; }
+.site-header nav a { opacity: .92; color: #d4e6f6; }
+.site-header nav a[aria-current] { color: #fff; opacity: 1; }
+body.is-light .site-header nav a,
+body.is-light .header-explore,
+body.is-light .wordmark { color: #f4f9ff; text-shadow: 0 1px 6px #02081299; }
+.header-explore span { width: 44px; height: 44px; border: 1.5px solid #7fb6ecb3; box-shadow: 0 0 12px #5aaaff2e; }
+
+/* Journey rail as a drum: the current chapter is pinned at 44% and the strip travels. */
+.journey-rail {
+  right: 0;
+  top: calc(44% - 240px);
+  width: 360px;
+  height: 480px;
+  transform: translate3d(86px, 0, 0);
+  -webkit-mask-image: linear-gradient(transparent, #000 16%, #000 84%, transparent);
+  mask-image: linear-gradient(transparent, #000 16%, #000 84%, transparent);
+}
+.journey-rail.is-overview { transform: translate3d(0, 0, 0); }
+.journey-rail-track,
+.journey-rail ol {
+  position: absolute;
+  inset: 240px 112px auto auto;
+  width: 16px;
+  height: calc(8 * var(--rail-gap));
+  background: none;
+  transform: translate3d(0, calc(var(--rail-e, 0) * -1 * var(--rail-gap)), 0);
+  will-change: transform;
+}
+.journey-rail-track::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; transform: translateX(-50%); background: #7fbfff2e; }
+.journey-rail-fill { left: 50%; width: 1.5px; transform: translateX(-50%); background: linear-gradient(#7fbfff, #cfe9ff); box-shadow: 0 0 8px #5aaaffb3; }
+.rail-node { width: 8px; height: 8px; border: 1.5px solid #7fb0e0a6; background: #0a1626; }
+.journey-rail li.is-complete .rail-node { background: #8ec5f5; border-color: #8ec5f5; box-shadow: 0 0 6px #7fbfff66; }
+.journey-rail li.is-current .rail-node {
+  width: 24px; height: 24px;
+  border: 1.5px solid #cfe8ff;
+  background: #0a1626cc;
+  box-shadow: 0 0 0 5px #7fbfff14, 0 0 16px #5aaaffb3, inset 0 0 8px #7fbfff40;
+}
+.journey-rail li.is-current .rail-node::after { content: ""; position: absolute; inset: 0; margin: auto; width: 8px; height: 8px; border-radius: 50%; background: #e4f3ff; box-shadow: 0 0 8px #9fd4ff; }
+.rail-label { right: calc(100% + 10px); }
+.rail-label b { color: #a9d0f5; }
+.journey-rail.is-overview .rail-label { left: calc(100% + 10px); right: auto; }
+body.is-light .journey-rail::before { inset: 28px 95px 28px auto; width: 50px; border-radius: 14px; }
+body.is-light .journey-rail li.is-current .rail-label { right: calc(100% + 18px); }
+@media (max-width: 1099px) { .journey-rail, .journey-rail.is-overview { transform: translate3d(100px, 0, 0); } }
+@media (max-width: 760px) {
+  :root { --rail-gap: 34px; }
+  .journey-rail { top: calc(44% - 150px); height: 300px; }
+  .journey-rail-track, .journey-rail ol { top: 150px; }
+  .journey-rail, .journey-rail.is-overview { transform: translate3d(104px, 0, 0); }
+}
+
+/* Hero */
+.hero-finish-options { gap: 4px; }
+.hero-finish-options .finish-option { width: 34px; height: 34px; }
+.hero-finish-options .finish-swatch { width: 20px; height: 20px; border-radius: 50%; }
+.finish-option input:checked + .finish-swatch,
+.hero-finish-options input:checked + .finish-swatch { outline: 2px solid #9fd0ff; outline-offset: 3px; box-shadow: 0 0 12px #8cc8ff99, inset 0 1px 2px #fff3; }
+.finish-options input:checked + .finish-swatch { outline-offset: 5px; }
+.scroll-cue i,
+.hero-bottom .scroll-cue i { width: 52px; height: 52px; border: 1.5px solid #6fb0f0c7; background-size: 24px, auto; box-shadow: inset 0 0 12px #6fb3f033, 0 0 18px #5aaaff40; }
+.ui-key { width: 36px; height: 36px; border: 1.5px solid #6fa9e6b3; border-radius: 7px; box-shadow: inset 0 0 10px #6fb3f026; }
+.ui-key img { width: 26px; height: 26px; }
+
+/* 01 · Three reasons */
+.flight-card .card-tile { --tile: 52px; }
+.flight-card .card-tile ~ .eyebrow,
+.flight-card .card-tile ~ h2 { margin-left: 68px; }
+.flight-steps { gap: 28px; }
+.flight-steps i { width: 44px; height: 2px; background: #5f8fc038; }
+.flight-steps i.is-complete { background: #5f8fc0; }
+.flight-steps i.is-current { background: #cfe6ff; box-shadow: 0 0 10px #8fc8f2b3; }
+
+/* 02 · Anatomy */
+.architecture-detail-label i.ui-tile { --tile: 52px; }
+body.is-live .architecture-chapter .layer-key { translate: 0 -26px; }
+body.is-live .architecture-chapter .layer-key li { gap: 16px; padding-top: 18px; }
+body.is-live .architecture-chapter .layer-key li i.ui-tile { --tile: 52px; }
+body.is-live .architecture-chapter .layer-key li span { font-size: 14px; color: #7f9bb5; }
+body.is-live .architecture-chapter .layer-key li.is-seen span { color: #a9c9e6; }
+body.is-live .architecture-chapter .layer-key li.is-current span { color: #e0f0ff; }
+body.is-live .architecture-chapter .layer-key li.is-current::after {
+  content: ""; position: absolute; top: -4px;
+  left: calc(var(--layer-progress, 0) * 100% - 4px);
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #e4f3ff; box-shadow: 0 0 10px #7fbfff;
+}
+.anatomy-label.has-tile { padding-left: 66px; }
+.anatomy-label > i.ui-tile { --tile: 50px; top: -4px; }
+body.is-live .architecture-chapter .text-link { display: inline-flex; align-items: center; gap: 16px; font-size: 14px; color: #a9d0f5; border-bottom-color: #4f86c0; }
+body.is-live .architecture-chapter .text-link span { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #6aa8e8b3; border-radius: 50%; font-size: 15px; }
+.anatomy-leaders path,
+.performance-leaders path { stroke: #7fb6ec; stroke-opacity: .85; }
+.anatomy-leaders circle { r: 6px; fill: #0a1a2e; stroke: #9fd0ff; stroke-width: 1.5; }
+.anatomy-leaders .anatomy-core { r: 2.5px; fill: #e4f3ff; stroke: none; }
+.performance-leaders circle { r: 5px; fill: #0a1a2e; stroke: #9fd0ff; stroke-width: 1.5; }
+.anatomy-leaders,
+.performance-leaders { filter: drop-shadow(0 0 4px #5aaaff73); }
+
+/* 03 · Energy */
+body.is-live .power-chapter .copy { width: 404px; max-width: 34vw; }
+.power-numbers { position: relative; }
+.power-numbers::before { content: ""; position: absolute; left: 50%; top: 4px; bottom: 4px; width: 1px; background: #6aa8e838; }
+.power-numbers > div:last-child { padding-left: 22px; }
+.power-numbers i.ui-tile { --tile: 62px; }
+.power-numbers strong { color: #8ec3f5; font-size: 52px; }
+.power-specifications > div { padding-left: 64px; min-height: 72px; border-top-color: #2d4a6d; }
+.power-specifications dt i.ui-tile { --tile: 48px; }
+.power-specifications dt { color: #f2f8ff; }
+.power-specifications dd { color: #c0d4ea; }
+.power-duration dd { color: #a9d0f5; }
+.power-specifications .power-duration::after {
+  height: 12px;
+  border-radius: 3px;
+  box-shadow: none;
+  background:
+    linear-gradient(90deg, #7fbfff, #cfe9ff) 0 0 / 80% 6px no-repeat,
+    linear-gradient(#243a55, #243a55) 0 0 / 100% 6px no-repeat,
+    repeating-linear-gradient(90deg, #7fbfff73 0 1px, transparent 1px 25%) 0 100% / 100% 4px no-repeat;
+}
+
+/* 04 · Intelligence */
+.performance-label.has-tile { padding-left: 70px; }
+.performance-label > i.ui-tile { --tile: 54px; top: -4px; }
+.performance-label h3 { font-size: clamp(20px, 1.6vw, 24px); }
+.performance-steps span { width: 56px; color: #a9d0f5; }
+.performance-steps span::before { width: 10px; height: 10px; border: 1.5px solid #8fbfe8; }
+.performance-steps span::after { top: 5px; left: calc(50% + 8px); width: 40px; }
+.performance-steps span.is-lit { color: #e2f1fc; }
+.performance-steps span.is-lit::before { background: #dcecff; border-color: #dcecff; }
+
+/* 05 · Optical axis */
+body.is-live .optics-cards { gap: 32px; }
+body.is-live .optics-path-card .bp-optics { max-height: 96px; }
+body.is-live .optics-chapter .optics-overview .bp-lenses { max-height: 100px; }
+.optics-path-steps { counter-reset: optic-step; }
+.optics-path-steps li { counter-increment: optic-step; position: relative; padding-left: 34px; }
+.optics-path-steps li::before {
+  content: counter(optic-step);
+  position: absolute; left: 0; top: 0;
+  width: 22px; height: 22px;
+  display: grid; place-items: center;
+  border: 1.5px solid #7fb6ec; border-radius: 50%;
+  font: 12px/1 var(--mono); color: #cfe6ff;
+  box-shadow: 0 0 8px #5aaaff40;
+}
+.optics-overview .detail-note i.ui-tile { --tile: 46px; width: 46px; height: 46px; border: 1.5px solid #6aa8e8b3; background: linear-gradient(160deg, #16365c5c, #0a182b99); }
+
+/* 06–07 · Optical view and open sky */
+.ui-open-sky .pov-horizon { opacity: 0 !important; }
+.ui-open-sky .glass-edge { opacity: .16; }
+.ui-open-sky .glass-corner.bl,
+.ui-open-sky .glass-corner.br { opacity: 0; }
+body.is-live .sky-chapter .flight-world-panel { width: min(100%, 1130px); background: linear-gradient(125deg, #14305299, #0a1b30b3); border: 1px solid #8cbef059; }
+.world-stops i.ui-tile { --tile: 58px; }
+.world-stops li::after { top: 28px; left: 70px; right: 12px; height: 2px; background: #6aa8e84d; }
+.world-stops li.is-passed::after { background: #6aa8e8; box-shadow: 0 0 8px #5aaaff80; }
+.world-stops li { color: #cfe4ff; }
+.world-stops li.is-current { color: #fff; }
+.world-stops li em span { opacity: .8; }
+
+/* 08 · Arrival */
+body.is-live .finale .purchase-actions .pill-button,
+.purchase-actions .pill-button { font-size: 16px; padding: 16px 22px; }
+.purchase-actions .pill-button span { font-size: 22px; }
+.detail-button { font-size: 15px; color: #d6e8fb; border-color: #4a78a8; }
+.purchase-price > span { font-size: 17px; }
+.purchase-price strong { font-size: 27px; }
+body.is-live .finale .finish-note { font-size: 13.5px; color: #d4e3f3; }
+.finish-features li { min-height: 54px; padding: 8px 16px 8px 8px; border-color: #35557a; }
+.finish-features i.ui-tile { --tile: 38px; }
+.finish-features i.ui-tile img { width: 86%; height: 86%; }
+.replay i.ui-tile { --tile: 26px; border: 0; background: none; box-shadow: none; }
+.replay i.ui-tile img { width: 100%; height: 100%; }
+.final-footer .mono { font-family: var(--body); letter-spacing: 0; }
+.final-footer span { word-spacing: .2em; color: #c5d8ee; }
+
+/* Part callouts projected from the battery and optics study models. */
+#part-labels { position: absolute; inset: 0; pointer-events: none; }
+.in-explorer #part-labels { display: none; }
+.part-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 4px #5aaaff66); }
+.part-leaders g { opacity: 0; }
+.part-leaders path { fill: none; stroke: #7fb6ec; stroke-width: 1; stroke-opacity: .85; stroke-linejoin: round; stroke-linecap: round; }
+.part-leaders circle { fill: #0a1a2e; stroke: #9fd0ff; stroke-width: 1.5; }
+.part-leaders .part-axis { stroke: #7fb0e0; stroke-dasharray: 8 6; stroke-opacity: .6; }
+.part-leaders .part-dimension { stroke: #9fd0ff; stroke-opacity: .75; }
+/* Round 2 fit: callouts keep one-line titles; optics cards clear the front lens. */
+.performance-label.has-tile { padding-left: 60px; }
+.performance-label > i.ui-tile { --tile: 46px; top: -2px; }
+.performance-label h3 { font-size: clamp(18px, 1.42vw, 21px); }
+.performance-note { font-size: clamp(13px, .94vw, 14px); line-height: 1.55; margin-top: 8px; }
+body.is-live .optics-chapter .optics-cards .copy { padding: 24px 26px; min-height: 0; }
+body.is-live .optics-path-card .bp-optics { max-height: 84px; margin-bottom: 12px; }
+body.is-live .optics-chapter .optics-overview .bp-lenses { max-height: 84px; }
+@media (min-width: 1100px) { body.is-live .optics-chapter .optics-overview { gap: 14px 28px; } }
+body.is-live .optics-path-card h3 { margin-top: 8px; }
+body.is-live .optics-path-steps { gap: 14px; }
+body.is-live .optics-path-steps li { padding-left: 30px; }
+body.is-live .optics-path-steps p { font-size: 13px; margin-top: 4px; text-wrap: balance; }
+/* The hero overview shows the whole itinerary, so the drum's edge fade would hide chapter 00. */
+.journey-rail.is-overview { -webkit-mask-image: none; mask-image: none; }
+/* ---------- Round 3: full contrast, full rail, grotesk nav, measured placement ---------- */
+.site-header nav, .header-explore { font-family: var(--body); font-size: 15px; font-weight: 450; letter-spacing: 0; }
+.site-header nav a { color: #a7c7e8; opacity: 1; }
+.site-header nav a[aria-current] { color: #fff; font-weight: 500; }
+.header-explore { color: #ace0f7; }
+
+.eyebrow,
+body.is-live .glass-chapter .eyebrow,
+body.is-live .flight-card .eyebrow,
+body.is-live .optics-chapter .optics-overview .eyebrow,
+body.is-live .optics-chapter .optics-path-card .eyebrow,
+body.is-live .sky-chapter .eyebrow { letter-spacing: .09em; }
+.hero .eyebrow { letter-spacing: .12em; }
+.performance-code, .anatomy-label .anatomy-code, .scroll-cue, .scroll-hint, .text-link, .detail-note,
+.replay, body.is-live .finale .replay, .world-stops, .journey-detail > div, body.is-live .flight-pagination,
+.power-numbers .mono, .finish-heading .mono, .purchase-price small, .architecture-detail-label p,
+.performance-heading p { letter-spacing: .08em; }
+.hero-subline > span { opacity: 1; color: #b8d4f0; }
+
+/* Full rail: all nine chapters visible in every chapter, no edge fade. */
+.journey-rail { top: 0; height: 100%; --rail-gap: 46px; transform: translate3d(72px, 0, 0); -webkit-mask-image: none; mask-image: none; }
+.journey-rail.is-overview { transform: translate3d(-2px, 0, 0); }
+.journey-rail-track,
+.journey-rail ol { top: calc(44% - 4 * var(--rail-gap)); transform: none; }
+.journey-rail-track::before { background: #7fbfff40; }
+.rail-node { background: #0a1626; border-color: #80b4e0; }
+.rail-label { letter-spacing: .04em; }
+.rail-label b { color: #93bfde; }
+.journey-rail li:not(.is-current) .rail-label { color: #93bfde; }
+body.is-light .journey-rail::before {
+  inset: auto 85px auto auto;
+  top: calc(44% - 4 * var(--rail-gap) - 26px);
+  height: calc(8 * var(--rail-gap) + 52px);
+  width: 70px;
+  border-radius: 35px;
+  background: rgba(20, 45, 80, .62);
+  border: 1px solid #cfe7fa33;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+body.is-light .journey-rail li.is-current .rail-label { right: calc(100% + 20px); padding: 9px 12px; border-radius: 8px 0 0 8px; border-right: 0; background: rgba(20, 45, 80, .62); }
+@media (max-width: 1099px) { .journey-rail, .journey-rail.is-overview { transform: translate3d(100px, 0, 0); } }
+@media (max-width: 760px) { .journey-rail { --rail-gap: 30px; } }
+
+/* Hero */
+@media (min-width: 1100px) { body.is-live .hero .hero-subline { margin-right: 63px; } }
+body.is-live .hero .hero-subline { translate: 0 -9px; }
+.hero-finish-picker { grid-template-columns: 12.5ch max-content; column-gap: 6px; translate: -11px 0; }
+.hero-finish-options .finish-option { width: 30px; height: 30px; }
+.hero-finish-options input:checked + .finish-swatch { box-shadow: 0 0 10px rgba(120, 190, 255, .6), inset 0 1px 2px #fff3; }
+body.is-live .hero .scroll-cue { translate: -15px 18px; }
+@media (min-width: 761px) { body.is-live .bottom-tools { bottom: 63px; right: 32px; } }
+
+/* 01 · Three reasons */
+body.is-live .flight-chapter { padding-bottom: 22px; }
+body.is-live .flight-pagination { display: grid; grid-template-columns: 1fr auto 1fr; }
+.flight-pagination > span:last-child { justify-self: end; }
+.flight-steps { gap: 15px; }
+body.is-live .flight-chapter .flight-card {
+  border-radius: 6px;
+  border-color: rgba(110, 170, 235, .45);
+  background: radial-gradient(ellipse at var(--glow-x) var(--glow-y), rgb(var(--card-tint) / .1), transparent 68%), rgba(14, 40, 72, .55);
+}
+body.is-live .flight-card::before { border-radius: 6px; }
+body.is-live .flight-card h2 { font-weight: 560; }
+.flight-card .card-tile { --tile: 58px; }
+.flight-card .card-tile img { width: 62%; height: 62%; }
+.flight-card .card-tile ~ .eyebrow,
+.flight-card .card-tile ~ h2 { margin-left: 74px; }
+.journey-detail .bp-route { max-width: 360px; }
+.fold-detail { border-top: 0; }
+.fold-detail .fold-number { color: #8ec3f5; font-size: 40px; }
+.fold-detail strong { font-weight: 400; color: #c5d8ee; }
+.fold-detail p span { color: #c5d8ee; }
+.optical-detail .bp-gimbal { width: 128px; }
+
+/* 02 · Anatomy */
+body.is-live .architecture-chapter .copy { translate: 0 -21px; }
+body.is-live .architecture-chapter .layer-key { translate: 0 4px; }
+body.is-live .architecture-chapter .layer-key li { border-top: 3px solid #2d4a6d; }
+body.is-live .architecture-chapter .layer-key li::before { height: 3px; top: -3px; }
+body.is-live .architecture-chapter .layer-key li.is-current::after { top: -5.5px; }
+body.is-live .architecture-chapter .layer-key li i.ui-tile { --tile: 66px; opacity: 1; }
+body.is-live .architecture-chapter .layer-key li span { color: #a9d0f5; }
+body.is-live .architecture-chapter .layer-key li.is-seen span { color: #c8e3f8; }
+body.is-live .architecture-chapter .layer-key li.is-current span { color: #fff; }
+.architecture-detail-label p span { color: #a9d0f5; }
+.anatomy-label.has-tile { padding-left: 70px; }
+.anatomy-label > i.ui-tile { --tile: 54px; }
+.anatomy-label h3 { font-size: clamp(20px, 1.55vw, 24px); font-weight: 560; }
+body.is-live .architecture-chapter .text-link { translate: 0 -3px; font-size: 13px; color: #99daf6; border-bottom: 0; text-decoration: underline; text-decoration-color: #4f86c0; text-underline-offset: 9px; }
+body.is-live .architecture-chapter .text-link span { font-size: 15px; }
+
+/* Leaders end in light cores, not dark holes. */
+.anatomy-leaders path,
+.performance-leaders path,
+.part-leaders path { stroke: #7fb6ec; stroke-opacity: .88; }
+.anatomy-leaders circle { r: 6px; fill: #9fd0ff1f; stroke: #9fd0ff; stroke-width: 1.5; }
+.anatomy-leaders .anatomy-core { r: 2.6px; fill: #e6f3ff; stroke: none; }
+.performance-leaders circle,
+.part-leaders circle { r: 3.2px; fill: #e6f3ff; stroke: #9fd0ff73; stroke-width: 6; }
+.part-leaders .part-axis { stroke: #7fb0e0; stroke-opacity: .7; }
+
+/* 03 · Energy */
+body.is-live .power-chapter .power-deck { translate: -104px 0; }
+body.is-live .power-chapter .copy { width: 396px; max-width: 36vw; border-radius: 6px; border-color: rgba(110, 165, 230, .45); }
+body.is-live .power-chapter .power-technical { translate: 0 58px; }
+body.is-live .power-chapter .eyebrow { color: #92c8eb; }
+.power-numbers .mono { white-space: nowrap; color: #93cef2; }
+.power-numbers i.ui-tile { --tile: 72px; }
+.power-numbers strong { font-size: 48px; }
+.power-specifications > div { padding-left: 80px; min-height: 84px; }
+.power-specifications dt i.ui-tile { --tile: 62px; top: 11px; }
+.power-specifications dt { color: #afe6fd; }
+.power-specifications dd { color: #a3d1ee; }
+.power-duration dd { color: #93cdf3; }
+.power-specifications .power-duration::after {
+  height: 18px;
+  background:
+    linear-gradient(#86c1f5, #86c1f5) 0 0 / 80% 6px no-repeat,
+    linear-gradient(#243a55, #243a55) 0 0 / 100% 6px no-repeat,
+    repeating-linear-gradient(90deg, #7fbfff80 0 1px, transparent 1px 25%) 0 100% / 100% 10px no-repeat,
+    linear-gradient(#7fbfff80, #7fbfff80) 100% 100% / 1px 10px no-repeat;
+}
+
+/* 04 · Intelligence */
+.performance-label.has-tile { padding-left: 76px; }
+.performance-label > i.ui-tile { --tile: 60px; top: -6px; }
+.performance-label h3 { font-size: 22px; font-weight: 560; }
+.performance-note { color: #b9d3ea; }
+.performance-steps span { width: 49px; color: #92c3e1; }
+.performance-steps span::after { width: 33px; }
+
+/* 05 · Optical axis */
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-cards { width: calc(100vw - 121px); margin-left: calc(60px - var(--pad)); grid-template-columns: 690fr 597fr; }
+  body.is-live .optics-chapter .optics-overview {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, .82fr);
+    grid-template-areas: "eyebrow eyebrow eyebrow" "title drawing lede" "note drawing lede";
+    column-gap: 22px;
+  }
+  body.is-live .optics-chapter .optics-overview h2 { font-size: 30px; }
+  body.is-live .optics-chapter .optics-overview .bp-lenses { max-height: 132px; }
+  body.is-live .optics-chapter .optics-overview .lede { align-self: center; padding-left: 18px; border-left: 1px solid #6aa8e84d; }
+}
+body.is-live .optics-path-card h3 { font-size: 28px; font-weight: 560; color: #fff; }
+body.is-live .optics-path-card .bp-optics { max-height: 112px; width: 100%; margin: 10px 0 12px; }
+body.is-live .optics-path-steps li { padding-left: 0; }
+.optics-path-steps li::before { display: none; }
+body.is-live .optics-chapter .optics-cards .copy { border-color: rgba(110, 170, 235, .5); background: linear-gradient(145deg, #11294ab8, #0c1a30cc); }
+.optics-overview .detail-note > span { display: none; }
+body.is-live .optics-chapter .optics-overview .detail-note { gap: 40px; color: #84bbdd; }
+.optics-overview .detail-note i.ui-tile { --tile: 42px; width: 42px; height: 42px; }
+.optics-overview .detail-note i.ui-tile::after { content: "\2192"; position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-54%); font: 15px var(--mono); color: #a9d0f5; }
+.part-label { letter-spacing: .06em; color: #b7dbf7; }
+
+/* 06–07 · Optical view and open sky */
+.glass-corner.tl { top: 14.5%; left: 5%; }
+.glass-corner.tr { top: 14.5%; right: 5%; }
+.optical-meta, .optical-meta.right { top: calc(14.5% + 3px); text-shadow: 0 1px 3px rgba(10, 30, 50, .45); }
+.optical-meta { left: calc(5% + 38px); }
+.optical-meta.right { left: auto; right: calc(5% + 38px); }
+.optical-meta.right::before { content: ""; position: absolute; inset: -12px -22px; z-index: -1; border-radius: 22px; background: radial-gradient(closest-side, rgba(20, 50, 80, .3), transparent); }
+body.is-live .sky-chapter .flight-world-panel { width: min(100%, 1070px); background: rgba(12, 32, 56, .78); }
+body.is-live .sky-chapter h2 { font-size: clamp(34px, 3.05vw, 46px); font-weight: 560; }
+.world-name { font-size: clamp(24px, 1.95vw, 28px); }
+body.is-live .sky-chapter .world-captions .lede { color: #e0f3fb; }
+.world-stops i.ui-tile { --tile: 62px; }
+.world-stops i.ui-tile img { filter: drop-shadow(0 0 3px #8fcdf580) brightness(1.2); }
+.world-stops li::after { top: 30px; left: 74px; background: #6fa9d8; opacity: .55; }
+.world-stops li.is-passed::after { background: #6fa9d8; opacity: 1; }
+.world-stops li.is-current::after { background: #e2e8ee; opacity: 1; box-shadow: 0 0 8px #9fd4ffcc; }
+.world-stops li.is-current i.ui-tile { border-color: #d8e7f2; box-shadow: inset 0 0 16px #8fcaf540, 0 0 16px rgba(120, 190, 255, .7); }
+
+/* 08 · Arrival */
+body.is-live .finale .arrival-copy { translate: 0 -13px; }
+body.is-live .finale .purchase-panel { margin-top: clamp(18px, 3vh, 34px); }
+.finish-heading { gap: 6px; }
+body.is-live .finale .finish-options { margin-top: 12px; }
+body.is-live .finale .purchase-actions .pill-button,
+.purchase-actions .pill-button { padding: 13px 22px; background: #b7dcff; }
+.detail-button { padding: 11px 20px; }
+.purchase-price > span { color: #f2fefe; }
+.finish-features { border-top: 1px solid #2d4a6d; padding-top: 14px; }
+.finish-features li span b { font-weight: 600; }
+.replay, body.is-live .finale .replay { color: #abe1f9; letter-spacing: .1em; }
+.replay i.ui-tile { --tile: 22px; }
+.finish-option input:checked + .finish-swatch { box-shadow: 0 0 12px rgba(140, 200, 255, .65), inset 0 1px 2px #fff3; }
+
+/* Round 3 fit: collisions found in the round 3 captures. */
+.hero-finish-picker { grid-template-columns: max-content max-content; column-gap: 14px; }
+.journey-rail.is-overview { transform: translate3d(-8px, 0, 0); }
+.performance-label[data-part="m2"] h3,
+.performance-label[data-part="m1"] h3 { max-width: 190px; }
+body.is-live .flight-chapter .flight-card { min-height: 0; }
+body.is-live .flight-card .lede { margin-bottom: 10px; }
+.journey-detail .bp-route { max-height: 96px; width: auto; max-width: 100%; }
+.fold-detail { grid-template-columns: 112px 1fr; padding-top: 8px; }
+.optical-detail { padding-top: 8px; }
+.optical-detail .bp-gimbal { width: 108px; }
+body.is-live .optics-chapter .optics-cards .copy { padding: 20px 24px; }
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-overview { grid-template-columns: 245px 150px minmax(0, 1fr); }
+  body.is-live .optics-chapter .optics-overview .bp-lenses { max-height: 116px; }
+}
+body.is-live .optics-chapter .optics-overview .detail-note { gap: 34px; white-space: nowrap; }
+body.is-live .optics-path-card .bp-optics { max-height: 88px; margin: 6px 0 8px; }
+body.is-live .optics-path-steps p { margin-top: 2px; }
+
+/* ---------- Round 4: filled rail, tight blue mono, drawings at full size ---------- */
+.journey-rail { --rail-gap: 52px; transform: translate3d(50px, 0, 0); }
+.journey-rail-track,
+.journey-rail ol { top: calc(50% - 4 * var(--rail-gap)); }
+.journey-rail.is-overview { transform: translate3d(-2px, 0, 0); }
+body.ui-finale .journey-rail { transform: translate3d(50px, -140px, 0); }
+.journey-rail-track::before { width: 2px; background: #7fbfff8c; box-shadow: 0 0 6px rgba(110, 180, 240, .5); }
+.journey-rail-fill { width: 2px; }
+.rail-node,
+.journey-rail li.is-complete .rail-node { width: 9px; height: 9px; border: 0; background: #9fd0f5; box-shadow: 0 0 6px rgba(110, 180, 240, .55); }
+.journey-rail li.is-current .rail-node { width: 24px; height: 24px; border: 1.5px solid #cfe8ff; background: #0a1626cc; box-shadow: 0 0 0 5px #7fbfff14, 0 0 16px #5aaaffb3, inset 0 0 8px #7fbfff40; }
+.rail-label { right: calc(100% + 4px); font-weight: 500; letter-spacing: .02em; }
+.journey-rail.is-overview .rail-label { left: calc(100% + 4px); right: auto; }
+body.is-light .journey-rail::before {
+  top: calc(50% - 4 * var(--rail-gap) - 28px);
+  height: calc(8 * var(--rail-gap) + 56px);
+  border-radius: 6px;
+  background: rgba(18, 40, 66, .7);
+  border: 1px solid rgba(110, 176, 224, .6);
+}
+body.is-light .journey-rail li.is-current .rail-label { right: calc(100% + 20px); }
+@media (max-width: 1099px) { .journey-rail, .journey-rail.is-overview, body.ui-finale .journey-rail { transform: translate3d(100px, 0, 0); } }
+@media (max-width: 760px) { .journey-rail { --rail-gap: 30px; } }
+
+.eyebrow,
+body.is-live .glass-chapter .eyebrow,
+body.is-live .flight-card .eyebrow,
+body.is-live .optics-chapter .optics-overview .eyebrow,
+body.is-live .optics-chapter .optics-path-card .eyebrow,
+body.is-live .sky-chapter .eyebrow { letter-spacing: .04em; font-weight: 500; color: #9fd0f5; }
+.hero .eyebrow { letter-spacing: .05em; font-weight: 500; color: #b2daf2; }
+.performance-code, .anatomy-label .anatomy-code, .scroll-cue, .scroll-hint, .text-link,
+body.is-live .architecture-chapter .text-link, .detail-note, body.is-live .optics-chapter .optics-overview .detail-note,
+.replay, body.is-live .finale .replay, .world-stops, body.is-live .flight-pagination, .power-numbers .mono,
+.finish-heading .mono, .purchase-price small, .architecture-detail-label p, .performance-heading p, .part-label,
+.optical-meta, .optical-meta.right, .hero-subline, body.is-live .architecture-chapter .layer-key li span { letter-spacing: .03em; }
+.performance-code, .anatomy-label .anatomy-code, .power-numbers .mono, .architecture-detail-label p,
+.architecture-detail-label p span, body.is-live .power-chapter .eyebrow, .part-label, .world-stops li em,
+body.is-live .architecture-chapter .layer-key li span { color: #9fd0f5; font-weight: 500; }
+body.is-live .architecture-chapter .layer-key li.is-current span { color: #fff; }
+.scroll-cue { color: #a8dcf8; }
+body.is-live .flight-card .lede { color: #d2e5f5; }
+.performance-note, .power-specifications dd, .anatomy-label .anatomy-note, .fold-detail strong, .fold-detail p span,
+.optical-description, .architecture-detail-note { color: #bfd6ec; }
+body.is-live .final-footer { opacity: 1; }
+.final-footer span { color: #b6cfe2; }
+i.ui-tile img { width: 76%; height: 76%; }
+.flight-card .card-tile img { width: 72%; height: 72%; }
+
+/* Hero */
+.hero-finish-options { gap: 0; }
+.hero-finish-options .finish-option { width: 30px; }
+.hero-finish-picker { translate: 2px 0; }
+.header-explore { translate: 12px 0; }
+
+/* 01 · Three reasons: drawings at full size, deeper navy glass. */
+body.is-live .flight-chapter .flight-card {
+  padding: 20px;
+  border-color: rgba(70, 130, 190, .45);
+  background: radial-gradient(ellipse at var(--glow-x) var(--glow-y), rgb(var(--card-tint) / .06), transparent 68%), rgba(10, 28, 52, .72);
+}
+body.is-live .flight-card::before { opacity: calc(var(--flight-focus) * .6); }
+body.is-live .flight-card h2 { font-size: clamp(26px, 2.3vw, 34px); }
+.flight-card .card-tile { top: 20px; left: 20px; }
+body.is-live .flight-window { padding-bottom: 4px; }
+.journey-detail > div { display: none; }
+.journey-detail .bp-route { max-height: none; width: 100%; max-width: 380px; }
+.fold-detail { grid-template-columns: 192px 1fr; column-gap: 16px; }
+.fold-detail .fold-number { font-size: 48px; }
+.optical-detail .bp-gimbal { width: 141px; }
+
+/* 02 · Anatomy */
+body.is-live .architecture-chapter .layer-key { translate: 0 19px; }
+body.is-live .architecture-chapter .layer-key li i.ui-tile { --tile: 68px; }
+.architecture-detail-label i.ui-tile { --tile: 55px; }
+.architecture-detail-label p { line-height: 1.3; }
+.anatomy-label .anatomy-code { margin-bottom: 4px; }
+.anatomy-label h3 { line-height: 1.15; }
+.anatomy-label .anatomy-note { font-size: 13px; line-height: 1.5; margin-top: 8px; }
+body.is-live .architecture-chapter .text-link { color: #99daf6; font-weight: 500; }
+
+/* 03 · Energy: the deck itself was capped at 355px. */
+body.is-live .power-deck { width: 396px; max-width: 36vw; }
+body.is-live .power-chapter .power-deck { translate: -80px 0; }
+body.is-live .power-chapter .power-technical { translate: 0 14px; }
+.power-technical h3 { font-size: 42px; }
+.power-numbers strong { font-size: 57px; }
+.power-specifications .power-duration dt { flex: 1 1 auto; }
+.power-specifications .power-duration dd { margin-left: auto; }
+
+/* 04 · Intelligence */
+.performance-label.has-tile { padding-left: 86px; }
+.performance-label > i.ui-tile { --tile: 70px; top: -8px; }
+.performance-label[data-part="m2"] > i.ui-tile,
+.performance-label[data-part="m1"] > i.ui-tile { --tile: 72px; }
+.performance-label h3 { font-size: 23px; max-width: 260px; text-wrap: wrap; }
+.performance-code { margin-bottom: 6px; }
+.performance-note { font-size: 13px; line-height: 1.5; max-width: 240px; text-wrap: wrap; }
+.performance-label[data-part="m2"] .performance-note,
+.performance-label[data-part="m1"] .performance-note { max-width: 180px; }
+.performance-steps span::after { height: 2px; background: #6f9fcf; }
+
+/* 05 · Optical axis: both drawings at 1:1 so their numbered rings stay legible. */
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-cards { width: calc(100vw - 104px); }
+  body.is-live .optics-chapter .optics-overview { grid-template-columns: 240px 222px minmax(0, 1fr); grid-template-rows: auto 1fr auto; align-content: stretch; column-gap: 16px; }
+  body.is-live .optics-chapter .optics-overview h2 { font-size: 32px; align-self: center; }
+  body.is-live .optics-chapter .optics-overview .bp-lenses { width: 222px; max-height: 162px; }
+  body.is-live .optics-chapter .optics-overview .lede { font-size: 13px; line-height: 1.52; }
+}
+body.is-live .optics-path-card .bp-optics { width: 520px; max-width: 100%; max-height: none; margin: 4px auto 6px; }
+body.is-live .optics-path-card h3 { margin-top: 0; }
+
+/* 07 · Open sky */
+body.is-live .sky-chapter .flight-world-panel { grid-template-columns: 365px minmax(0, 1fr); gap: 40px; padding: 18px 16px 18px 32px; }
+.world-stops { margin-top: 8px; }
+.world-stops li { gap: 8px; }
+.world-stops li::after { left: 62px; right: 0; }
+.optical-meta.right::before { opacity: .5; inset: -18px -60px; }
+
+/* 08 · Arrival */
+body.is-live .finale .finish-options { margin-top: 4px; }
+.finish-features { max-width: 420px; }
+.finish-features li { min-height: 59px; }
+.replay i.ui-tile { --tile: 20px; }
+
+/* Round 4 fit: collisions found in the round 4 captures. */
+.journey-rail { transform: translate3d(66px, 0, 0); }
+body.ui-finale .journey-rail { transform: translate3d(66px, -140px, 0); }
+body.is-light .journey-rail { transform: translate3d(40px, 0, 0); }
+@media (max-width: 1099px) { .journey-rail, .journey-rail.is-overview, body.ui-finale .journey-rail, body.is-light .journey-rail { transform: translate3d(100px, 0, 0); } }
+body.is-live .power-chapter .power-technical { translate: 0 50px; }
+.performance-label h3,
+.performance-note { max-width: 224px; }
+.performance-label[data-part="m2"] h3,
+.performance-label[data-part="m1"] h3 { max-width: 190px; }
+.performance-label[data-part="m2"] .performance-note,
+.performance-label[data-part="m1"] .performance-note { max-width: 170px; }
+@media (min-width: 1100px) { body.is-live .optics-chapter .optics-overview h2 { font-size: 28px; } }
+
+/* ---------- Round 5: per-chapter rail, text measures, blueprint ink, glyph sizes ---------- */
+@property --rail-gap { syntax: "<length>"; inherits: true; initial-value: 52px; }
+@property --rail-shift { syntax: "<length>"; inherits: true; initial-value: 0px; }
+.journey-rail {
+  transform: translate3d(66px, var(--rail-shift), 0);
+  transition: transform .8s cubic-bezier(.2, .75, .15, 1), --rail-gap .8s cubic-bezier(.2, .75, .15, 1), --rail-shift .8s cubic-bezier(.2, .75, .15, 1), opacity .5s ease, visibility .5s;
+}
+.journey-rail.is-overview { transform: translate3d(-2px, var(--rail-shift), 0); }
+body.ui-finale .journey-rail { transform: translate3d(66px, var(--rail-shift), 0); }
+body.is-light .journey-rail { transform: translate3d(40px, var(--rail-shift), 0); }
+@media (max-width: 1099px) { .journey-rail, .journey-rail.is-overview, body.ui-finale .journey-rail, body.is-light .journey-rail { transform: translate3d(100px, 0, 0); } }
+.journey-rail.is-overview .rail-label { opacity: 1; }
+.journey-rail li:not(.is-current) .rail-label { font-weight: 400; }
+.journey-rail li.is-current .rail-label,
+.journey-rail li.is-current .rail-label b { color: #e6f4ff; }
+i.ui-tile.is-lit,
+.is-current > i.ui-tile { border-color: rgba(140, 200, 255, .75); box-shadow: inset 0 0 14px #6fb3f024, 0 0 8px rgba(110, 180, 240, .35); }
+.blueprint { filter: drop-shadow(0 0 3px rgba(110, 180, 240, .3)); }
+
+/* Glyphs inside circles and chips. */
+.scroll-cue i,
+.hero-bottom .scroll-cue i { background-size: 30px, auto; border-color: #5aa0e0; }
+.scroll-cue { color: #b1e0f9; }
+.scroll-hint > span { letter-spacing: 0; }
+.header-explore span { font-family: var(--body); font-size: 20px; }
+body.is-live .architecture-chapter .text-link { translate: -17px -3px; }
+body.is-live .architecture-chapter .text-link span { font-family: var(--body); font-size: 18px; }
+.optics-overview .detail-note i.ui-tile::after { font: 18px var(--body); }
+.finish-features i.ui-tile { --tile: 40px; }
+.finish-features i.ui-tile img { width: 80%; height: 80%; }
+.replay i.ui-tile { --tile: 24px; }
+
+/* 01 · Three reasons: two-line captions in a 13px measure. */
+body.is-live .flight-card h2 { font-size: clamp(26px, 2.2vw, 32px); }
+body.is-live .flight-card .lede { margin-bottom: 6px; color: #cee2ee; }
+.fold-detail p { font-size: 13px; line-height: 20px; max-width: 180px; }
+.optical-detail { gap: 18px; }
+.optical-description { font-size: 13px; line-height: 1.5; max-width: 190px; }
+
+/* 02 · Anatomy */
+.anatomy-label .anatomy-note { text-wrap: wrap; }
+body.is-live .architecture-chapter .layer-key li.is-seen span { color: #95d9fb; }
+.architecture-detail-label p { letter-spacing: 0; }
+
+/* 03 · Energy */
+body.is-live .power-chapter .power-technical { translate: 0 65px; }
+.power-numbers > div { gap: 2px; }
+.power-numbers strong { font-size: 55px; }
+.power-numbers .mono { color: #87bfe3; }
+.power-duration dd { font-size: 12px; letter-spacing: 0; }
+
+/* 04 · Intelligence: one-line titles, three-line bodies. */
+.performance-label h3 { font-size: 23px; max-width: 240px; }
+.performance-note { font-size: 13px; line-height: 1.5; max-width: 230px; text-wrap: wrap; }
+.performance-label[data-part="m2"] h3,
+.performance-label[data-part="m1"] h3 { max-width: 240px; }
+.performance-label[data-part="m2"] .performance-note,
+.performance-label[data-part="m1"] .performance-note { max-width: 170px; }
+.performance-code { margin-bottom: 4px; }
+.performance-heading { translate: 0 -5px; }
+
+/* 05 · Optical axis */
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-overview { grid-template-columns: 266px 213px minmax(0, 1fr); }
+  body.is-live .optics-chapter .optics-overview h2 { font-size: 31px; }
+  body.is-live .optics-chapter .optics-overview .bp-lenses { width: 213px; }
+  body.is-live .optics-chapter .optics-overview .lede { max-width: 160px; }
+}
+body.is-live .optics-chapter .optics-cards .copy { padding: 16px 22px; }
+body.is-live .optics-path-card .bp-optics { margin: 0 auto 2px; }
+body.is-live .optics-path-steps { gap: 10px; }
+body.is-live .optics-path-steps p { margin-top: 0; }
+.part-label { letter-spacing: .02em; }
+
+/* 07 · Open sky */
+.world-stops { width: 650px; max-width: none; }
+.world-stops li em { letter-spacing: 0; }
+body.is-live .sky-chapter .world-intro { translate: 0 -9px; }
+.optical-meta.right { text-shadow: 0 1px 2px rgba(10, 30, 50, .45); }
+
+/* 08 · Arrival: real bullets, mono model number. */
+.final-footer .mono { font-family: var(--mono); letter-spacing: .02em; }
+.final-footer .sep { display: inline-block; margin: 0 .5em; font-size: 16px; line-height: 1; vertical-align: -1px; }
+.final-footer span { color: #c0e2f3; word-spacing: normal; }
+
+/* Round 5 fit: collisions found in the round 5 captures. */
+.optical-description { max-width: 216px; }
+body.is-live .power-chapter .power-technical { translate: 0 47px; }
+.performance-label h3 { font-size: 22px; max-width: 250px; }
+.performance-label[data-part="m2"] h3,
+.performance-label[data-part="m1"] h3 { max-width: 190px; }
+.performance-label[data-part="imu"] .performance-note { max-width: 215px; }
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-cards { grid-template-columns: 720fr 567fr; }
+  body.is-live .optics-chapter .optics-overview { column-gap: 10px; }
+  body.is-live .optics-chapter .optics-overview .lede { max-width: none; padding-left: 12px; }
+}
+
+.part-label {
+  position: absolute; left: 0; top: 0;
+  font: 13px/1.5 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #a9d0f5;
+  white-space: nowrap;
+  text-shadow: 0 1px 6px #030a14;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ---------- Round 6: measured placement against the target frames ---------- */
+/* Rail labels in the rail blue at a real weight; the active label is white on both lines. */
+.journey-rail li:not(.is-current) .rail-label,
+.journey-rail li:not(.is-current) .rail-label b { color: #8fb9d8; font-weight: 500; }
+.journey-rail li.is-current .rail-label,
+.journey-rail li.is-current .rail-label b { color: #e6f4ff; font-weight: 500; }
+
+/* Selected finish: a lit disc in the finish colour inside a pale ring. */
+.hero-finish-options input:checked + .finish-swatch,
+.finish-options input:checked + .finish-swatch {
+  background: radial-gradient(circle at 35% 30%, #f2f9ff 0, color-mix(in srgb, var(--finish) 45%, #d4ebff) 42%, var(--finish) 100%);
+  outline: 2px solid #cfe6ff;
+  box-shadow: 0 0 10px rgba(120, 190, 255, .6);
+}
+@media (min-width: 1100px) { .hero-finish-picker > fieldset { margin-left: -8px; } }
+@media (min-width: 1100px) { .scroll-cue i, .hero-bottom .scroll-cue i { background-size: 34px, auto; } }
+
+/* 01 · Three reasons: the card band and its footer sit higher. */
+@media (min-width: 1100px) { body.is-live .flight-chapter .flight-card { translate: 0 -13px; padding-bottom: 16px; } }
+@media (min-width: 1100px) { body.is-live .flight-pagination { translate: 0 -17px; } }
+@media (min-width: 1100px) { .journey-detail .bp-route { max-width: 404px; } }
+
+/* 02 · Anatomy: each bar fills across its own layer; bars still ahead show a start stub. */
+body.is-live .architecture-chapter .layer-key li::before { transform: scaleX(var(--layer-fill, 0)); }
+body.is-live .architecture-chapter .layer-key li.is-ahead::before { right: auto; width: 60px; transform: none; background: #3f78a8; box-shadow: none; }
+body.is-live .architecture-chapter .layer-key li.is-current::after { left: calc(var(--layer-fill, 0) * 100% - 4px); }
+body.is-live .architecture-chapter .layer-key li span,
+body.is-live .architecture-chapter .layer-key li.is-seen span { color: #7fc0e6; }
+body.is-live .architecture-chapter .layer-key li.is-current span { color: #dff1fd; }
+body.is-live .architecture-chapter .text-link { font-size: 12px; letter-spacing: .01em; }
+@media (min-width: 1100px) { .anatomy-label .anatomy-note { max-width: 280px; } }
+
+/* 03 · Energy */
+@media (min-width: 1100px) { .power-numbers { translate: 0 -10px; } }
+.power-numbers .mono { color: #88c0e4; }
+@media (min-width: 1100px) { .power-specifications { translate: 0 -6px; } }
+.power-specifications dt { color: #9ecbe8; }
+
+/* 04 · Intelligence: one-line titles, three-line bodies. */
+@media (min-width: 1100px) { .performance-heading h3 { font-size: 33px; } }
+.performance-heading p { letter-spacing: .02em; }
+.performance-label h3 { letter-spacing: -.01em; }
+@media (min-width: 1400px) { #performance-labels:not(.is-compact) .performance-label:not([data-part="m2"]) h3 { max-width: none; white-space: nowrap; } }
+.performance-note { line-height: 19px; }
+@media (min-width: 1100px) { .performance-label[data-part="radio"] .performance-note,
+.performance-label[data-part="processor"] .performance-note { max-width: 240px; } }
+
+/* 05 · Optical axis */
+.part-label { font-size: 12px; letter-spacing: 0; color: #93cdf2; }
+body.is-live .optics-chapter .optics-overview .detail-note { letter-spacing: .01em; }
+
+/* 07 · Open sky */
+@media (min-width: 1100px) { .world-stops i.ui-tile { --tile: 58px; } }
+
+/* 08 · Arrival */
+@media (min-width: 1100px) { body.is-live .finale .finish-options { padding-bottom: 12px; } }
+@media (min-width: 1100px) { .finish-features li { padding-right: 20px; } }
+.finish-features i.ui-tile img { width: 92%; height: 92%; }
+.replay, body.is-live .finale .replay { letter-spacing: .02em; }
+.final-footer span { color: #b4d5e8; }
+
+/* Round 6, measured: offsets read off the live page with measure.mjs. */
+/* Overview rail as far right as the 16px page gutter allows: "INTELLIGENCE" ends at x 1424. */
+@media (min-width: 1100px) { .journey-rail.is-overview { transform: translate3d(5px, var(--rail-shift), 0); } }
+.journey-rail.is-overview .rail-label { letter-spacing: 0; }
+@media (min-width: 1100px) { .scroll-hint > :not(:last-child) { translate: 6px 0; } }
+@media (min-width: 1100px) { body.is-live .power-chapter .power-technical { padding-bottom: 31px; translate: 0 49px; } }
+@media (min-width: 1100px) { .performance-heading h3 { font-size: 33.5px; } }
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-cards { width: calc(100% + 2 * var(--pad) - 120px); max-width: none; grid-template-columns: 691fr 598fr; column-gap: 31px; translate: 0 -7px; flex-shrink: 0; }
+  body.is-live .optics-chapter .optics-overview h2 { translate: 0 -6px; }
+  body.is-live .optics-chapter .optics-cards .copy { padding-block: 12px; }
+  body.is-live .optics-path-card .bp-optics { margin: 0 auto -2px; }
+  body.is-live .optics-chapter .copy.optics-path-card { padding-inline: 26px 18px; }
+  body.is-live .optics-path-steps { display: grid; grid-template-columns: 209px 184px minmax(0, 1fr); gap: 0; }
+  body.is-live .optics-path-steps p { white-space: nowrap; }
+  body.is-live .optics-path-card h3 { line-height: 1.2; }
+  body.is-live .optics-chapter .optics-overview { grid-template-columns: 256px 213px minmax(0, 1fr); column-gap: 8px; }
+  body.is-live .optics-chapter .optics-overview .detail-note { margin-bottom: 18px; }
+}
+@media (min-width: 1100px) { .world-stops { translate: 0 4px; } }
+/* Round 6, second measure. */
+@media (min-width: 1100px) { body.is-live .architecture-chapter .lede { translate: 0 8px; } }
+@media (min-width: 1100px) { body.is-live .architecture-chapter .architecture-detail-label { translate: 0 -6px; } }
+@media (min-width: 1100px) { body.is-live .optics-chapter .optics-overview h2 { font-size: 33px; } }
+@media (min-width: 1100px) { body.is-live .optics-path-card h3 { font-size: 31px; } }
+/* Round 6, 1280×720 check: short desktops and the 1100–1399px band. */
+@media (min-width: 1100px) and (max-height: 780px) {
+  .performance-heading { top: 90px; }
+  .performance-heading h3 { font-size: 28px; }
+  .performance-steps { margin-top: 12px; }
+  .performance-label h3 { font-size: 19px; }
+  .performance-note { font-size: 12px; line-height: 17px; }
+}
+@media (min-width: 1100px) and (max-width: 1399px) {
+  body.is-live .optics-chapter .optics-overview {
+    grid-template-columns: minmax(0, 1fr) 213px;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas: "eyebrow eyebrow" "title drawing" "lede drawing" "note drawing";
+    column-gap: 20px;
+  }
+  body.is-live .optics-chapter .optics-overview h2 { font-size: 28px; translate: none; align-self: start; }
+  body.is-live .optics-chapter .optics-overview .lede { align-self: start; margin-top: 8px; padding-left: 0; border-left: 0; }
+  body.is-live .optics-chapter .optics-overview .detail-note { margin-bottom: 0; }
+  body.is-live .optics-path-steps p { white-space: normal; }
+}
+@media (min-width: 1100px) and (max-width: 1399px) {
+  .world-stops { width: auto; max-width: 100%; }
+  body.ui-open-sky .optical-meta.right { translate: -84px 0; }
+  .finish-features li { padding-right: 16px; }
+}
+/* Finale on short desktops: the purchase column must end above the absolutely placed footer. */
+@media (min-width: 1100px) and (max-height: 860px) {
+  body.is-live .finale h2 { font-size: min(40px, 4.6vh); }
+  body.is-live .finale .arrival-copy .eyebrow { margin-bottom: 12px; }
+  body.is-live .finale .purchase-panel { margin-top: 14px; }
+  .finish-heading { gap: 4px; }
+  body.is-live .finale .finish-options { margin-top: 6px; padding-bottom: 4px; }
+  .finish-options .finish-option { width: 40px; height: 40px; }
+  .finish-options .finish-swatch { width: 30px; height: 30px; }
+  .finish-note { margin-top: 8px; }
+  .finish-features { margin-top: 10px; padding-top: 10px; }
+  .finish-features li { min-height: 46px; padding-block: 5px; }
+  .finish-features i.ui-tile { --tile: 34px; }
+  body.is-live .finale .purchase-price { margin-top: 12px; padding-top: 10px; }
+  .purchase-price strong { font-size: 24px; }
+  body.is-live .finale .purchase-actions { margin-top: 10px; gap: 8px; }
+  body.is-live .finale .purchase-actions .pill-button, .purchase-actions .pill-button { padding-block: 10px; }
+  body.is-live .finale .replay { margin-top: 10px; }
+  body.is-live .final-footer { bottom: 14px; }
+}
+/* Redrawn drawings: the 3/4 gimbal at 152px leaves the two-line caption its 210px. */
+@media (min-width: 1100px) {
+  .optical-detail .bp-gimbal { width: 152px; }
+  .optical-detail { gap: 12px; }
+}
+/* Phone callout cards: a tile sized for the 78px text inset. */
+#performance-labels.is-compact .performance-label > i.ui-tile,
+#performance-labels.is-compact .performance-label[data-part] > i.ui-tile { --tile: 44px; }
+/* Anatomy on short desktops: callouts and the left column fit above the layer row. */
+@media (min-width: 1100px) and (max-height: 780px) {
+  .anatomy-label h3 { font-size: 19px; }
+  .anatomy-label .anatomy-note { font-size: 12px; line-height: 17px; }
+  body.is-live .architecture-chapter h2 { font-size: 40px; }
+  body.is-live .architecture-chapter .architecture-detail-note { font-size: 13px; line-height: 19px; }
+}
+/* Power below desktop: undo the desktop deck width and offsets so the base tablet/phone rules apply. */
+@media (max-width: 1099px) {
+  body.is-live .power-chapter .power-deck { translate: none; }
+  body.is-live .power-chapter .power-technical { translate: none; padding-bottom: 25px; }
+  body.is-live .power-chapter .copy { width: 100%; max-width: none; }
+}
+@media (max-width: 760px) { body.is-live .power-deck { width: 100%; max-width: none; } }
+@media (min-width: 761px) and (max-width: 1099px) and (min-aspect-ratio: 11/10) { body.is-live .power-deck { width: 355px; max-width: 38vw; } }
+/* Phones hide the spec tiles, so the spec rows drop their tile inset. */
+@media (max-width: 760px) { .power-specifications > div { padding-left: 0; min-height: 0; } }
+
+/* ---------- Motion pass: hairline outlines instead of borders ---------- */
+:root { --hair: 1px; --ti: 168 212 245; }
+@media (min-resolution: 2dppx) { :root { --hair: .5px; } }
+body.is-live .flight-chapter .flight-card,
+body.is-live .power-chapter .power-technical,
+body.is-live .optics-chapter .optics-cards .copy,
+body.is-live .flight-world-panel,
+.finish-features li,
+.purchase-actions .detail-button,
+i.ui-tile, i.ui-key, .scroll-cue i, .header-explore > span,
+body.is-live .architecture-chapter .text-link span,
+.finish-swatch { border-color: transparent !important; outline-style: solid; outline-width: var(--hair); outline-offset: calc(var(--hair) * -1); }
+body.is-live .flight-chapter .flight-card,
+body.is-live .power-chapter .power-technical,
+body.is-live .optics-chapter .optics-cards .copy,
+body.is-live .flight-world-panel,
+.finish-features li,
+.purchase-actions .detail-button { outline-color: rgb(var(--ti) / .42); }
+i.ui-tile, i.ui-key, .scroll-cue i, .header-explore > span,
+body.is-live .architecture-chapter .text-link span { outline-color: rgb(var(--ti) / .6); }
+i.ui-tile.is-lit, .is-current > i.ui-tile,
+.world-stops li.is-current i.ui-tile,
+body.is-live .architecture-chapter .layer-key li.is-current i.ui-tile { outline-color: rgb(222 240 255 / .96); box-shadow: inset 0 0 14px rgb(120 190 255 / .14), 0 0 14px rgb(120 190 255 / .3); }
+.finish-swatch { outline-color: rgb(228 242 255 / .38); }
+.finish-option input:checked + .finish-swatch,
+.hero-finish-options input:checked + .finish-swatch,
+.finish-options input:checked + .finish-swatch { outline: var(--hair) solid #e6f3ff; outline-offset: 4px; box-shadow: 0 0 18px rgb(120 190 255 / .5); }
+.hero-finish-options input:checked + .finish-swatch { outline-offset: 3px; }
+.site-header { border-bottom-width: var(--hair); }
+.hero-subline, body.is-live .architecture-chapter .architecture-detail, .finish-features, .purchase-price,
+.power-specifications > div, .power-specifications .power-duration { border-top-width: var(--hair); border-top-color: rgb(var(--ti) / .22); }
+body.is-live .optics-chapter .optics-overview .lede { border-left-width: var(--hair); border-left-color: rgb(var(--ti) / .32); }
+.glass-corner { border-width: var(--hair); border-color: rgb(var(--ti) / .85); }
+body.is-live .architecture-chapter .layer-key li { border-top: var(--hair) solid rgb(var(--ti) / .3); }
+body.is-live .architecture-chapter .layer-key li::before { top: -1px; height: 1px; box-shadow: 0 0 8px rgb(140 200 255 / .7); }
+body.is-live .architecture-chapter .layer-key li.is-ahead::before { height: 1px; background: rgb(var(--ti) / .75); }
+body.is-live .architecture-chapter .layer-key li.is-current::after { top: -3.5px; width: 6px; height: 6px; margin-left: 1px; }
+
+/* ---------- Motion pass: drawings with live labels, card frames, scans, type motion ---------- */
+@property --fx-scan { syntax: "<percentage>"; inherits: true; initial-value: 112%; }
+@property --fx-beam { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --fx-front { syntax: "<percentage>"; inherits: true; initial-value: 0%; }
+
+/* Drawings: the generated PNG plus HTML labels placed on its own pixel grid. */
+.bp { position: relative; display: block; line-height: 0; }
+.bp > img { display: block; width: 100%; height: auto; }
+.bp-label, .bp-value, .bp-axis, .bp-num { position: absolute; line-height: 1; white-space: nowrap; pointer-events: none; }
+.bp-label, .bp-value { font: 500 12px/1 var(--mono); letter-spacing: .02em; color: #d4ebfb; }
+.bp-label.is-end { transform: translateX(-100%); }
+.bp-route-wrap .bp-label.is-rule { bottom: calc(16px + 18.2% * .86 + 7px); }
+.bp-value { top: calc(100% - 13px); color: #9cc9ea; transform: translateX(-50%); }
+.bp-value.is-first { transform: none; }
+.bp-value.is-last { transform: translateX(-100%); }
+.bp-axis { font: 600 15px/1 var(--body); color: #d6ecfb; transform: translate(-50%, -50%); }
+.bp-num { top: 0; width: 18px; height: 18px; display: grid; place-items: center; transform: translateX(-50%); border-radius: 50%; outline: var(--hair) solid rgb(var(--ti) / .85); outline-offset: calc(var(--hair) * -1); font: 500 12px/1 var(--mono); color: #e2f1fc; background: rgb(10 26 46 / .55); }
+.bp-route-wrap { width: 100%; max-width: 404px; padding-bottom: 16px; }
+.bp-gimbal-wrap { flex-shrink: 0; }
+@media (min-width: 1100px) { .bp-gimbal-wrap { width: 152px; } .fold-detail .bp-fold { width: 164px; justify-self: center; } }
+@media (max-width: 1099px) { .bp-lenses-wrap { display: none; } }
+@media (max-width: 760px) { .bp-gimbal-wrap { display: none; } }
+.bp-optics-wrap { width: 520px; max-width: 100%; margin: 0 auto; padding-top: 24px; }
+.bp-corner { position: absolute; width: 12px; height: 12px; border: 0 solid rgb(var(--ti) / .8); }
+.bp-corner.tl { left: -10px; top: 14px; border-top-width: var(--hair); border-left-width: var(--hair); }
+.bp-corner.tr { right: -10px; top: 14px; border-top-width: var(--hair); border-right-width: var(--hair); }
+.bp-corner.bl { left: -10px; bottom: -8px; border-bottom-width: var(--hair); border-left-width: var(--hair); }
+.bp-corner.br { right: -10px; bottom: -8px; border-bottom-width: var(--hair); border-right-width: var(--hair); }
+.bp-lenses-wrap { padding-top: 22px; }
+@media (min-width: 1100px) {
+  body.is-live .optics-chapter .optics-overview .bp-lenses-wrap { grid-area: drawing; width: 213px; align-self: center; justify-self: center; }
+}
+/* A scan line draws each drawing in from the left. */
+.bp.is-scanning > img { -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--fx-scan) - 12%), rgb(0 0 0 / .3) calc(var(--fx-scan) - 1%), transparent var(--fx-scan)); mask-image: linear-gradient(90deg, #000 calc(var(--fx-scan) - 12%), rgb(0 0 0 / .3) calc(var(--fx-scan) - 1%), transparent var(--fx-scan)); }
+.bp.is-scanning::after { content: ""; position: absolute; top: -6px; bottom: -6px; left: var(--fx-scan); width: 1px; background: linear-gradient(transparent, rgb(222 242 255 / .95) 18%, rgb(222 242 255 / .95) 82%, transparent); box-shadow: 0 0 12px 2px rgb(110 180 255 / .5); pointer-events: none; }
+
+/* Cards: hairline registration corners, a scan edge on entry and a light that runs the outline. */
+.fx-frame { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 4; font-style: normal; }
+.fx-frame::before {
+  --c: rgb(214 236 255 / .8); --l: 9px;
+  content: ""; position: absolute; inset: -5px;
+  background:
+    linear-gradient(var(--c) 0 0) 0 0 / var(--l) var(--hair) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 0 / var(--hair) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--l) var(--hair) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--hair) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 100% / var(--l) var(--hair) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 100% / var(--hair) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--l) var(--hair) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--hair) var(--l) no-repeat;
+}
+.fx-frame::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; opacity: 0;
+  background: conic-gradient(from var(--fx-beam), transparent 0deg 292deg, rgb(150 210 255 / .2) 318deg, rgb(232 246 255) 344deg, transparent 356deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.fx-frame.is-beam::after { animation: fx-beam 1.9s cubic-bezier(.35, .1, .25, 1) forwards; }
+@keyframes fx-beam { 0% { --fx-beam: -60deg; opacity: 0; } 12% { opacity: 1; } 82% { opacity: 1; } 100% { --fx-beam: 300deg; opacity: 0; } }
+.fx-frame > b { position: absolute; left: -6px; right: -6px; top: 0; height: 1px; opacity: 0; background: linear-gradient(90deg, transparent, rgb(226 243 255 / .95) 18%, rgb(226 243 255 / .95) 82%, transparent); box-shadow: 0 0 16px 2px rgb(120 190 255 / .45); }
+
+/* Viewport scan: a hairline front trailing a faint measurement grid. */
+.fx-sweep {
+  position: fixed; left: 0; right: 0; top: 0; height: 36vh; z-index: 40; pointer-events: none; opacity: 0; font-style: normal;
+  background:
+    linear-gradient(to bottom, transparent, rgb(120 190 255 / .05) 72%, rgb(150 210 255 / .1) 98%, transparent),
+    repeating-linear-gradient(90deg, rgb(160 210 245 / .09) 0 1px, transparent 1px 48px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 88%); mask-image: linear-gradient(to bottom, transparent, #000 88%);
+  mix-blend-mode: screen;
+}
+.fx-sweep::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, transparent, rgb(214 238 255 / .9) 14%, rgb(214 238 255 / .9) 86%, transparent); box-shadow: 0 0 18px 3px rgb(110 180 255 / .35); }
+
+/* Word reveals keep kerning inside each word. */
+fx-w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .04em .14em; margin: 0 -.04em -.14em; }
+fx-w > fx-i { display: inline-block; }
+
+/* Rail: a ring pings from the node of the chapter being entered. */
+.journey-rail li .rail-node::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; outline: var(--hair) solid rgb(214 238 255 / .9); opacity: 0; pointer-events: none; }
+.journey-rail li.fx-ping .rail-node::after { animation: fx-ping 1.2s cubic-bezier(.2, .7, .2, 1); }
+@keyframes fx-ping { 0% { transform: scale(.4); opacity: .95; } 100% { transform: scale(2.6); opacity: 0; } }
+
+/* Hero title: particles lift the letters away from the bottom up as the ascent begins,
+   and a light sweeps through the glyphs when the drum lands. */
+.fx-type-canvas { position: absolute; pointer-events: none; z-index: 3; }
+body.fx-title-dissolving .hero-title { -webkit-mask-image: linear-gradient(to top, transparent var(--fx-front), #000 calc(var(--fx-front) + 9%)); mask-image: linear-gradient(to top, transparent var(--fx-front), #000 calc(var(--fx-front) + 9%)); }
+.hero-title.fx-sheen .hero-title-face:not(.hero-title-prompt) {
+  background: linear-gradient(100deg, #edf2f7 0 42%, #a9dbff 47%, #ffffff 50%, #a9dbff 53%, #edf2f7 58% 100%) no-repeat;
+  background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: fx-sheen 1.5s cubic-bezier(.45, .05, .3, 1) forwards;
+}
+@keyframes fx-sheen { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+@media (prefers-reduced-motion: reduce) { .fx-sweep, .fx-type-canvas, .fx-frame::after { display: none; } }
+
+/* ---------- Motion pass, calmer: one subtle hairline per container, gradient fills, outline-only circles ---------- */
+.fx-frame::before, .fx-frame > b { display: none; }
+@keyframes fx-beam { 0% { --fx-beam: -60deg; opacity: 0; } 14% { opacity: .5; } 80% { opacity: .5; } 100% { --fx-beam: 300deg; opacity: 0; } }
+.fx-sweep { height: 1px; background: none; -webkit-mask-image: none; mask-image: none; mix-blend-mode: normal; }
+.fx-sweep::after { opacity: .55; box-shadow: 0 0 14px 1px rgb(110 180 255 / .25); }
+body.is-live .flight-chapter .flight-card,
+body.is-live .power-chapter .power-technical,
+body.is-live .optics-chapter .optics-cards .copy,
+body.is-live .flight-world-panel { border: 0 !important; outline-color: rgb(var(--ti) / .15); box-shadow: 0 40px 90px -40px rgb(2 8 20 / .7); }
+body.is-live .flight-chapter .flight-card { background: radial-gradient(ellipse at var(--glow-x) var(--glow-y), rgb(var(--card-tint) / .05), transparent 68%), linear-gradient(165deg, rgb(34 62 100 / .4), rgb(12 26 48 / .48) 46%, rgb(8 18 34 / .64)); }
+body.is-live .power-chapter .power-technical,
+body.is-live .optics-chapter .optics-cards .copy { background: linear-gradient(165deg, rgb(34 62 100 / .38), rgb(12 26 48 / .5) 46%, rgb(8 18 34 / .66)); }
+body.is-live .glass-chapter .copy::after { top: 0; left: 8%; width: 52%; height: var(--hair); background: linear-gradient(90deg, transparent, rgb(214 238 255 / .45), transparent); }
+.finish-features li, .purchase-actions .detail-button { border: 0 !important; outline-color: rgb(var(--ti) / .2); }
+i.ui-tile, i.ui-key { border: 0 !important; box-shadow: none !important; outline-color: rgb(var(--ti) / .2); background: linear-gradient(150deg, rgb(44 78 120 / .3), rgb(10 22 40 / .1) 72%); }
+i.ui-tile.is-lit, .is-current > i.ui-tile, .world-stops li.is-current i.ui-tile,
+body.is-live .architecture-chapter .layer-key li.is-current i.ui-tile { outline-color: rgb(214 236 255 / .7); box-shadow: 0 0 22px rgb(110 180 255 / .16) !important; }
+.scroll-cue i, .header-explore > span, body.is-live .architecture-chapter .text-link span,
+.optics-overview .detail-note i.ui-tile { border: 0 !important; box-shadow: none !important; outline: var(--hair) solid rgb(var(--ti) / .38); outline-offset: calc(var(--hair) * -1); }
+.finish-swatch { border: 0 !important; box-shadow: none !important; background: linear-gradient(160deg, rgb(255 255 255 / .14), transparent 58%), var(--finish) !important; outline: var(--hair) solid rgb(255 255 255 / .16); outline-offset: calc(var(--hair) * -1); }
+.finish-option input:checked + .finish-swatch,
+.hero-finish-options input:checked + .finish-swatch,
+.finish-options input:checked + .finish-swatch { outline: var(--hair) solid rgb(232 245 255 / .95); outline-offset: 4px; box-shadow: none !important; }
+.hero-finish-options input:checked + .finish-swatch { outline-offset: 3px; }
+.site-header, .hero-subline, body.is-live .architecture-chapter .architecture-detail, .finish-features, .purchase-price,
+.power-specifications > div, .power-specifications .power-duration { border-image: linear-gradient(90deg, rgb(var(--ti) / .28), rgb(var(--ti) / .03)) 1; }
+.anatomy-label h3, .anatomy-note, .performance-label h3, .performance-note { text-shadow: 0 1px 14px rgb(3 9 20 / .9); }
+#model-labels[data-current] .anatomy-label:not(.is-now) .anatomy-note { visibility: hidden; }
+#performance-labels:not(.is-compact) .performance-label:not(.is-current) .performance-note { visibility: hidden; }
+@media (min-width: 1100px) {
+  body.is-live .architecture-chapter .architecture-detail { display: none; }
+  body.is-live .architecture-chapter .layer-key li i.ui-tile { display: none; }
+}
+
+/* ---------- Journey rail: hairline track, fine ticks, tiny nodes, a thin sonar ring ---------- */
+@property --rail-sweep { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.journey-rail-track::before { width: 1px; background: linear-gradient(transparent, rgb(var(--ti) / .26) 7%, rgb(var(--ti) / .26) 93%, transparent); box-shadow: none; }
+.journey-rail-fill { width: 1px; background: linear-gradient(rgb(var(--ti) / 0), rgb(226 242 255 / .85)); box-shadow: 0 0 6px rgb(110 180 255 / .3); }
+.journey-rail-fill::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 1px; height: 28px; transform: translateX(-50%); background: linear-gradient(transparent, #eaf6ff); filter: drop-shadow(0 0 3px rgb(140 200 255 / .9)); }
+.journey-rail ol::before { content: ""; position: absolute; left: 50%; top: 0; width: 5px; height: calc(8 * var(--rail-gap)); transform: translateX(-50%); pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgb(var(--ti) / .22) 0 1px, transparent 1px calc(var(--rail-gap) / 4)); opacity: .8; }
+.journey-rail .rail-node,
+.journey-rail li.is-complete .rail-node { width: 3px; height: 3px; border: 0; outline: 0; background: rgb(var(--ti) / .55); box-shadow: none; }
+.journey-rail li.is-complete .rail-node { background: rgb(226 242 255 / .9); }
+.journey-rail li .rail-node::before,
+.journey-rail li .rail-node::after { content: none; animation: none; }
+.journey-rail li.is-current .rail-node { width: 13px; height: 13px; border: 0; background: rgb(8 18 34 / .6); box-shadow: 0 0 14px rgb(110 180 255 / .22); outline: var(--hair) solid rgb(232 245 255 / .9); outline-offset: calc(var(--hair) * -1); }
+.journey-rail li.is-current .rail-node::before { content: ""; position: absolute; inset: 0; margin: auto; width: 3px; height: 3px; border-radius: 50%; background: #eaf6ff; box-shadow: 0 0 6px #9fd4ff; }
+.journey-rail li.is-current .rail-node::after,
+.journey-rail li.is-current a::after { content: ""; position: absolute; inset: auto; left: 50%; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%;
+  outline: var(--hair) solid rgb(200 230 255 / .7); background: none; opacity: 0; pointer-events: none; animation: rail-sonar 2.8s cubic-bezier(.1, .6, .3, 1) infinite; }
+.journey-rail li.is-current a::after { animation-delay: 1.4s; }
+.journey-rail li.is-current a::before { content: ""; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from var(--rail-sweep), transparent 0deg 290deg, rgb(214 238 255 / .5) 356deg, transparent 360deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 13.5px, #000 14px 14.6px, transparent 15px); mask: radial-gradient(circle, transparent 0 13.5px, #000 14px 14.6px, transparent 15px);
+  animation: rail-sweep 4.5s linear infinite; }
+@keyframes rail-sonar { 0% { transform: scale(.7); opacity: .8; } 70% { opacity: .1; } 100% { transform: scale(3.2); opacity: 0; } }
+@keyframes rail-sweep { to { --rail-sweep: 360deg; } }
+.journey-rail li.fx-ping .rail-node::after { animation-duration: 1.2s; }
+@media (prefers-reduced-motion: reduce) { .journey-rail li.is-current .rail-node::after, .journey-rail li.is-current a::after, .journey-rail li.is-current a::before { animation: none; } }
+
+/* ---------- Particle headings and shader buttons ---------- */
+.fx-type-layer { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 25; }
+.fx-dissolving { -webkit-mask-image: linear-gradient(to top, transparent var(--fx-front), #000 calc(var(--fx-front) + 9%)); mask-image: linear-gradient(to top, transparent var(--fx-front), #000 calc(var(--fx-front) + 9%)); }
+@media (min-width: 1100px) and (min-height: 781px) {
+  #performance-labels:not(.is-compact) .performance-heading h3 { font-size: 46px; }
+  body.is-live .architecture-chapter h2 { font-size: 64px; }
+}
+@media (min-width: 1100px) and (min-height: 861px) { body.is-live .finale h2 { font-size: 60px; } }
+.shader-button-canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; pointer-events: none; z-index: -1; }
+.has-shader { isolation: isolate; outline-color: transparent !important; }
+.purchase-actions .pill-button.has-shader { background: transparent !important; }
+.purchase-actions .detail-button.has-shader { background: rgb(8 18 34 / .3); }
+
+/* Holographic drawings: no overlay badges; route labels sit under the rule. */
+.bp-optics-wrap, .bp-lenses-wrap { padding-top: 0; }
+.bp-route-wrap .bp-value { color: #b6daf3; }
+
+/* Studio light behind the scene; the sky chapters keep their own worlds. */
+.studio-backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; mix-blend-mode: screen; }
+.studio-backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s cubic-bezier(.3, .6, .2, 1); }
+@media (min-width: 1100px) { .anatomy-label .anatomy-note { max-width: 250px; } }
+
+/* Holographic art at interface sizes: calmer saturation, edges carry the form. */
+.blueprint { filter: saturate(.78) brightness(1.04) drop-shadow(0 0 3px rgb(110 180 240 / .22)); }
+i.ui-tile img, i.ui-key img, .world-stops i.ui-tile img, .finish-features i.ui-tile img { filter: saturate(.72) brightness(1.12); }
+
+/* The lens transition backdrop waits for the post-boot world downloads. */
+body:not(.aerix-worlds) .lens-transition::before { background: none; }

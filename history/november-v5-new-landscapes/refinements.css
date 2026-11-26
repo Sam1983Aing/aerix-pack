@@ -1,0 +1,178 @@
+/* Round 2 (Sam, Nov 18): refinements on top of v1. Loads last. */
+
+/* Sam (round 2, corrected): keep the chapter rail on the right, hide the browser's own
+   scrollbar instead. The page still scrolls with wheel, trackpad, keys and touch. */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { width: 0; height: 0; background: transparent; display: none; }
+
+/* Numbered Pins (Sam's pick, round 2): no leader lines, a numbered pin on each part. */
+.anatomy-leaders path,
+.performance-leaders path,
+.anatomy-leaders g:not(.part-pin) > circle,
+.performance-leaders g:not(.part-pin) > circle { display: none; }
+/* Prefixed with the layer so they beat ui-refresh.css, which sizes every circle in these
+   layers to 6px with a near-transparent fill (that made the demo pins smaller than designed). */
+:is(.anatomy-leaders, .performance-leaders) .part-pin .part-pin-halo { r: 26px; fill: url(#part-pin-glow); stroke: none; opacity: .6; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin .part-pin-disc { r: 14px; fill: rgb(8 22 40 / .88); stroke: #b8e0ff; stroke-width: 1.5; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin .part-pin-pulse { r: 15px; fill: none; stroke: #9fd0f5; stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: center; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin .part-pin-text { fill: #f2f9ff; font: 400 11px var(--mono); letter-spacing: .02em; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin.is-current .part-pin-halo { opacity: 1; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin.is-current .part-pin-disc { fill: #9fd0f5; stroke: #e6f4ff; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin.is-current .part-pin-text { fill: #08162a; }
+:is(.anatomy-leaders, .performance-leaders) .part-pin.is-current .part-pin-pulse { animation: part-pin-pulse 1.6s ease-out infinite; }
+@keyframes part-pin-pulse { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(2.1); } }
+@media (prefers-reduced-motion: reduce) { :is(.anatomy-leaders, .performance-leaders) .part-pin.is-current .part-pin-pulse { animation: none; opacity: .6; transform: scale(1.5); } }
+
+/* A heading that has dissolved into particles stays hidden until its section comes back. */
+/* Children are included: the hero title's letter faces set their own inline visibility. */
+.fx-gone,
+.fx-gone * { visibility: hidden !important; }
+
+/* Finish swatches (Sam, round 2): rounded squares like the September hero, with a machined
+   finish instead of a flat dot. ui-refresh.css forces a flat background, no border and no shadow
+   with !important, so these properties need !important too. Layers, top to bottom: top highlight, diagonal sheen,
+   brushed grain, bottom shade, then the finish colour. Bevel and drop shadow in box-shadow. */
+:is(.hero-finish-options, .finish-options, .preorder-finishes) .finish-option .finish-swatch {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28%;
+  border: 1px solid rgb(228 242 255 / .22) !important;
+  background:
+    radial-gradient(120% 80% at 28% 12%, rgb(255 255 255 / .5), rgb(255 255 255 / 0) 52%),
+    linear-gradient(180deg, rgb(255 255 255 / .4) 0%, rgb(255 255 255 / .1) 30%, rgb(255 255 255 / 0) 48%),
+    linear-gradient(125deg, rgb(255 255 255 / 0) 28%, rgb(255 255 255 / .32) 45%, rgb(255 255 255 / 0) 60%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / .065) 0 1px, rgb(0 0 0 / .055) 1px 3px),
+    linear-gradient(0deg, rgb(0 0 0 / .5), rgb(0 0 0 / 0) 60%),
+    var(--finish) !important;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .55),
+    inset 0 -1px 0 rgb(0 0 0 / .4),
+    inset 0 0 0 1px rgb(255 255 255 / .08),
+    inset 0 -7px 10px rgb(0 0 0 / .28),
+    0 3px 8px rgb(0 0 0 / .45) !important;
+  transition: transform .35s cubic-bezier(.2, .75, .15, 1), border-color .35s, box-shadow .35s;
+}
+:is(.hero-finish-options, .finish-options, .preorder-finishes) .finish-option:hover .finish-swatch {
+  transform: translateY(-1px);
+  border-color: rgb(228 242 255 / .6) !important;
+}
+:is(.hero-finish-options, .finish-options, .preorder-finishes) .finish-option input:checked + .finish-swatch {
+  outline: 1.5px solid #9fd0ff;
+  outline-offset: 3px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .6),
+    inset 0 -1px 0 rgb(0 0 0 / .4),
+    inset 0 -7px 10px rgb(0 0 0 / .28),
+    0 3px 10px rgb(0 0 0 / .45),
+    0 0 14px rgb(140 200 255 / .45) !important;
+}
+.finish-options .finish-option input:checked + .finish-swatch { outline-offset: 4px; }
+/* One light sweep across the swatch when it is picked. */
+:is(.hero-finish-options, .finish-options, .preorder-finishes) .finish-option .finish-swatch::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / .55) 50%, transparent 60%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+:is(.hero-finish-options, .finish-options, .preorder-finishes) .finish-option input:checked + .finish-swatch::after {
+  animation: swatch-sweep 1.1s cubic-bezier(.45, .05, .3, 1) .05s 1 both;
+}
+@keyframes swatch-sweep { to { transform: translateX(120%); } }
+@media (prefers-reduced-motion: reduce) {
+  :is(.hero-finish-options, .finish-options, .preorder-finishes) .finish-option input:checked + .finish-swatch::after { animation: none; }
+}
+
+/* "Inspect every layer": the underline is drawn under the words only. As a text underline it
+   also ran under the arrow inside the circle (a text underline can't be removed from a child). */
+/* No position change here: styles.css places the link absolutely at the top right of the
+   chapter, and that also anchors this ::after line. (Setting it relative dropped the link
+   under the paragraph, misaligned.) */
+body.is-live .architecture-chapter .text-link { text-decoration: none; }
+body.is-live .architecture-chapter .text-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: calc(34px + 16px);
+  top: calc(50% + 1em);
+  height: 1px;
+  background: #4f86c0;
+  pointer-events: none;
+}
+
+/* Explore button icon (Sam, round 2): a small drone seen from above instead of the arrow.
+   The blades turn slowly and spin up on hover. */
+.header-explore .explore-drone { width: 24px; height: 24px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.1; stroke-linecap: round; transition: transform .5s cubic-bezier(.2, .75, .15, 1); }
+.header-explore .explore-arms { opacity: .8; }
+.header-explore .explore-rotor circle { stroke-dasharray: 1.6 1.4; opacity: .55; }
+.header-explore .explore-blade { stroke-width: 1.3; transform-box: fill-box; transform-origin: center; animation: explore-spin 2.6s linear infinite; }
+.header-explore .explore-body { fill: rgb(159 208 245 / .2); }
+.header-explore .explore-lens { fill: currentColor; stroke: none; }
+.header-explore:hover .explore-drone { transform: translateY(-1.5px) scale(1.06); }
+.header-explore:hover .explore-blade { animation-duration: .32s; }
+.header-explore:hover .explore-rotor circle { opacity: .9; }
+@keyframes explore-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .header-explore .explore-blade { animation: none; } }
+
+/* Header link hover (Sam, round 2): a flight trace draws under the word and a glowing dot
+   flies to its end. The letters re-decode at the same time (js/polish/nav-hover.js). */
+.site-header nav a { position: relative; }
+.site-header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -9px;
+  height: 1px;
+  background: linear-gradient(90deg, rgb(159 208 245 / 0), rgb(159 208 245 / .85) 18%, rgb(159 208 245 / .85) 82%, rgb(159 208 245 / 0));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .55s cubic-bezier(.2, .75, .15, 1);
+  pointer-events: none;
+}
+.site-header nav a::before {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -11px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #e8f5ff;
+  box-shadow: 0 0 8px 2px rgb(159 208 245 / .8);
+  opacity: 0;
+  pointer-events: none;
+}
+.site-header nav a:hover::after,
+.site-header nav a:focus-visible::after { transform: scaleX(1); }
+.site-header nav a:hover::before,
+.site-header nav a:focus-visible::before { animation: nav-fly .55s cubic-bezier(.2, .75, .15, 1) forwards; }
+@keyframes nav-fly { 0% { opacity: 0; left: 0; } 20% { opacity: 1; } 100% { opacity: 1; left: calc(100% - 5px); } }
+@media (prefers-reduced-motion: reduce) { .site-header nav a:hover::before { animation: none; opacity: 1; left: calc(100% - 5px); } }
+
+/* Finale buttons (Sam, round 2): two equal buttons on one line, no diagonal arrows. */
+.purchase-panel .purchase-actions,
+body.is-live .finale .purchase-actions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  max-width: 380px !important;
+}
+.purchase-actions .pill-button,
+.purchase-actions .detail-button,
+body.is-live .finale .purchase-actions .pill-button,
+body.is-live .finale .purchase-actions .detail-button {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  padding-inline: 10px;
+  font-size: 14px;
+}
+
+/* Sam, Nov 19: the scroll waits while a world clip plays to its end (main.js adds the class).
+   Lenis already blocks the wheel and touch, this also stops keys and the scrollbar. */
+html.is-clip-hold { overflow: hidden; }
+/* The line after the current landscape fills as its clip plays, so the wait reads as progress. */
+body.is-live .world-stops li.is-current::after {
+  background: linear-gradient(90deg, #6aa8e8 0 calc(var(--clip, 0) * 100%), #6aa8e84d calc(var(--clip, 0) * 100%));
+  box-shadow: 0 0 8px rgb(90 170 255 / calc(var(--clip, 0) * .5));
+}

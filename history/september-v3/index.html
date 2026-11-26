@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101313" />
+    <meta
+      name="description"
+      content="AERIX. An ascent through form, engineering and perspective. An independent camera drone design study."
+    />
+    <title>AERIX — Ascent</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="./assets/fonts/michroma.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="./assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="./styles.css?v=3" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.min.js",
+          "three/addons/": "./vendor/three/addons/"
+        }
+      }
+    </script>
+    <script src="./vendor/gsap.min.js" defer></script>
+    <script src="./vendor/ScrollTrigger.min.js" defer></script>
+    <script src="./vendor/lenis.min.js" defer></script>
+  </head>
+  <body class="is-static" data-render-mode="static">
+    <a class="skip" href="#architecture">Skip to the design</a>
+    <header class="site-header">
+      <a href="#top" class="wordmark" aria-label="AERIX home"
+        >AERIX<span>®</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#ascent">Ascent</a><a href="#architecture">Architecture</a
+        ><a href="#perspective">Perspective</a>
+      </nav>
+      <button class="header-explore" data-explore>
+        Explore the object <span aria-hidden="true">↗</span>
+      </button>
+    </header>
+    <div id="visual-stage" aria-hidden="true">
+      <div id="canvas-mount"></div>
+      <div id="model-labels">
+        <span data-label="battery">01 — POWER</span
+        ><span data-label="thermal">02 — THERMAL</span
+        ><span data-label="computer">03 — CONTROL</span
+        ><span data-label="tray">04 — STRUCTURE</span>
+      </div>
+    </div>
+    <div class="optical-glass" aria-hidden="true">
+      <div class="glass-edge"></div>
+      <span class="glass-corner tl"></span><span class="glass-corner tr"></span
+      ><span class="glass-corner bl"></span
+      ><span class="glass-corner br"></span>
+      <div class="pov-horizon"><i></i><span>⊕</span><i></i></div>
+      <span class="optical-meta">AERIX / OPTICAL VIEW</span
+      ><span class="optical-meta right">PERSPECTIVE 01</span>
+    </div>
+    <div class="lens-transition" aria-hidden="true"><div></div></div>
+    <aside class="altimeter" aria-label="Journey progress">
+      <span class="altimeter-label">ASCENT</span>
+      <div class="altimeter-track"><i></i></div>
+      <span id="altitude">00</span><span class="altimeter-unit">/ 08</span>
+    </aside>
+    <div class="journey-coordinate mono" aria-hidden="true">
+      <span id="phase-name">PRE-FLIGHT</span
+      ><span id="phase-number">00.00</span>
+    </div>
+    <main id="experience">
+      <section class="chapter hero" id="top" data-chapter="0">
+        <div class="copy">
+          <p class="eyebrow">00 / READY FOR DEPARTURE</p>
+          <h1>ASCENT</h1>
+          <p class="lede">A new point of view.</p>
+          <div class="hero-subline mono">
+            <span>ENGINEERED CURIOSITY</span><span>DESIGN SERIES / 001</span>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/v3-hero.webp"
+          alt="AERIX titanium drone on a circular launch platform"
+          width="1800"
+          height="1350"
+          fetchpriority="high"
+        />
+        <div class="hero-bottom">
+          <span class="mono">TITANIUM IN FORM.<br />EXPLORATION IN SPIRIT.</span
+          ><a href="#ascent" class="scroll-cue"
+            ><i></i>SCROLL TO ASCEND <span>↑</span></a
+          ><span class="mono">AERIX — 001<br />READY TO RISE</span>
+        </div>
+      </section>
+      <section class="chapter" id="ascent" data-chapter="1">
+        <div class="copy">
+          <p class="eyebrow">01 / POISE IN MOTION</p>
+          <h2>Presence.<br />In motion.</h2>
+          <p class="lede">
+            A sculpted shell. A suspended camera. Every line resolved from every
+            angle. Follow AERIX as it leaves the ground.
+          </p>
+          <span class="detail-note mono"><i></i> THE AIRFRAME / IN ORBIT</span>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/hero.webp"
+          alt="AERIX rising from the launch platform"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter" id="architecture" data-chapter="2">
+        <div class="copy">
+          <p class="eyebrow">02 / ANATOMY OF AERIX</p>
+          <h2>Every layer.<br />Considered.</h2>
+          <p class="lede">
+            Power, cooling, computation and structure. Four precisely arranged
+            layers, revealed beneath a single continuous shell.
+          </p>
+          <ol class="layer-key">
+            <li><span>01</span>Power cartridge</li>
+            <li><span>02</span>Thermal cover</li>
+            <li><span>03</span>Flight computer</li>
+            <li><span>04</span>Structural tray</li>
+          </ol>
+          <button class="text-link" data-explore>
+            Inspect every layer <span>↗</span>
+          </button>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/complete-exploded.webp"
+          alt="Exterior shell and four interior layers of AERIX, separated vertically"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter flight-bridge" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">02 / RETURN TO FLIGHT</p>
+          <h2>One form.<br />Fully resolved.</h2>
+          <p class="lede">
+            The layers return. The silhouette becomes whole. A moment of
+            stillness before we move closer.
+          </p>
+          <span class="detail-note mono"
+            >AIRFRAME ASSEMBLED / DETAIL STUDIES AHEAD</span
+          >
+        </div>
+      </section>
+      <section class="chapter chapter--right" id="power" data-chapter="3">
+        <div class="copy">
+          <p class="eyebrow">03 / THE ENERGY INSIDE</p>
+          <h2>Energy.<br />In reserve.</h2>
+          <p class="lede">
+            Four foil cells, held within a graphite cartridge. Fitted bands,
+            recessed contacts and carefully routed connections bring order to
+            the energy inside.
+          </p>
+          <div class="micro-spec">
+            <span>04</span>
+            <p class="mono">CELL LAYERS<br />ONE ASSEMBLY</p>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/battery.webp"
+          alt="Exploded battery cartridge with four foil cells and lid"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter" id="control" data-chapter="4">
+        <div class="copy">
+          <p class="eyebrow">04 / THE QUIET INTELLIGENCE</p>
+          <h2>Precision.<br />At the core.</h2>
+          <p class="lede">
+            Fine copper traces. Shielded components. A flight computer arranged
+            with the same care as the airframe that surrounds it.
+          </p>
+          <div class="material-key mono">
+            <i></i> COPPER / GRAPHITE / ALUMINUM
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/computer.webp"
+          alt="Flight computer with its shield, processor cap, soldermask and traces"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter chapter--right" id="optics" data-chapter="5">
+        <div class="copy">
+          <p class="eyebrow">05 / THE OPTICAL ASSEMBLY</p>
+          <h2>A study<br />in clarity.</h2>
+          <p class="lede">
+            Polished rings frame a sequence of glass, iris and sensor. Follow
+            the optical axis. Then step into the view.
+          </p>
+          <span class="detail-note mono"
+            >CONTINUE INTO THE LENS <span>↑</span></span
+          >
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/optics.webp"
+          alt="Camera pod, lens elements, iris, filter and sensor separated along the optical axis"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter pov-chapter" id="perspective" data-chapter="6">
+        <div class="copy">
+          <p class="eyebrow">06 / YOU ARE THE POINT OF VIEW</p>
+          <h2>A different<br />perspective.</h2>
+          <p class="lede">Beyond the airframe. Inside the view.</p>
+          <div class="perspective-axis mono">
+            <span>FORM</span><i></i><span>FEELING</span><i></i
+            ><span>FREEDOM</span>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/hero.webp"
+          alt="View from AERIX through a soft atmospheric horizon"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        /><span class="spatial-word word-left" aria-hidden="true">NEAR</span
+        ><span class="spatial-word word-right" aria-hidden="true">FAR</span>
+      </section>
+      <section class="chapter sky-chapter" id="sky" data-chapter="7">
+        <div class="copy">
+          <p class="eyebrow">07 / A DIFFERENT ALTITUDE</p>
+          <h2>The world.<br />Reframed.</h2>
+          <p class="lede">
+            The camera stays with you. The horizon opens ahead.
+          </p>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/v3-sky.webp"
+          alt="AERIX flying above a warm luminous horizon"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter finale" id="finale" data-chapter="8">
+        <div class="copy">
+          <p class="eyebrow">AERIX / EXPLORATION BY DESIGN</p>
+          <h2>Go further.</h2>
+          <p class="lede">A considered object. An open invitation.</p>
+          <button class="pill-button" data-explore>
+            Explore AERIX <span>↗</span></button
+          ><a class="replay mono" href="#top">RETURN TO THE BEGINNING ↑</a>
+        </div>
+        <img
+          class="chapter-poster"
+          src="./assets/v3-sky.webp"
+          alt="The complete AERIX camera drone in flight"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+        <div class="final-footer">
+          <a href="#top" class="wordmark">AERIX</a
+          ><span>An independent product design study.</span
+          ><span class="mono">© 2026</span>
+        </div>
+      </section>
+    </main>
+    <div class="bottom-tools">
+      <button id="motion-toggle" aria-pressed="false">
+        <span class="motion-icon" aria-hidden="true">▷</span
+        ><span class="motion-label">Motion off</span></button
+      ><span class="mono">SCROLL ↓ / RISE ↑</span>
+      <div id="load-status" role="status" hidden>
+        Preparing the view <span id="load-progress"></span>
+      </div>
+    </div>
+    <div
+      id="awakening"
+      hidden
+      role="region"
+      aria-label="AERIX power-on introduction"
+    >
+      <div class="boot-scan"></div>
+      <div class="boot-halo"></div>
+      <span class="boot-coordinate mono">AERIX / INITIALIZE</span>
+      <div class="boot-brand">
+        <span>AERIX</span>
+        <p class="mono" id="boot-message">PREPARING OPTICS</p>
+      </div>
+      <div class="boot-progress"><i></i></div>
+      <span id="boot-percent" class="mono">00</span
+      ><button id="skip-intro">Skip introduction <span>↗</span></button>
+    </div>
+    <dialog id="explorer" aria-labelledby="explorer-title">
+      <div class="explorer-header">
+        <h2 id="explorer-title">AERIX / In detail</h2>
+        <button id="close-explorer" aria-label="Close 3D explorer">
+          Close <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div id="explorer-stage">
+        <p id="explorer-status" role="status">Opening the view…</p>
+      </div>
+      <div class="explorer-controls" role="group" aria-label="View assembly">
+        <button data-pose="flight" aria-pressed="true">Flight</button
+        ><button data-pose="exploded">Architecture</button
+        ><button data-pose="battery">Battery</button
+        ><button data-pose="thermal">Thermal</button
+        ><button data-pose="computer">Computer</button
+        ><button data-pose="tray">Tray</button
+        ><button data-pose="optics">Optics</button
+        ><button data-pose="folded">Folded</button>
+      </div>
+      <p class="explorer-help">
+        Drag to rotate · Scroll to zoom · Arrow keys to turn · + / − to zoom
+      </p>
+    </dialog>
+    <noscript
+      ><style>
+        .bottom-tools,
+        .altimeter,
+        .journey-coordinate,
+        [data-explore] {
+          display: none;
+        }
+      </style></noscript
+    >
+    <script type="module" src="./main.js?v=3"></script>
+  </body>
+</html>

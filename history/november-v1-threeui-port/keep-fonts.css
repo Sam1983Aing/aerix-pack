@@ -1,0 +1,51 @@
+/* Sam's type, kept. Loads last.
+   The ThreeUI pass moved the header to Instrument Sans and made headings and mono labels
+   heavier. Sam prefers his original square tech look, so this layer puts the September
+   families and weights back on every element that existed in September. New elements from
+   the polish already use his fonts (IBM Plex Mono, Instrument Sans), and their mono labels
+   drop to 400 to match the rest. Everything else from the polish stays. */
+
+/* Header: Michroma at 12px, as in September (ThreeUI: Instrument Sans, 15px, 450). */
+.site-header nav,
+.header-explore { font-family: var(--tech); font-size: 12px; font-weight: 400; letter-spacing: normal; }
+.site-header nav a[aria-current] { font-weight: 400; }
+
+/* Headings back to 450 (ThreeUI: 560). */
+body.is-live .flight-card h2,
+.anatomy-label h3,
+.performance-label h3,
+body.is-live .optics-path-card h3,
+body.is-live .sky-chapter h2 { font-weight: 450; }
+
+/* Mono labels back to 400 (ThreeUI: 500). */
+.eyebrow,
+body.is-live .glass-chapter .eyebrow,
+body.is-live .flight-card .eyebrow,
+body.is-live .optics-chapter .optics-overview .eyebrow,
+body.is-live .optics-chapter .optics-path-card .eyebrow,
+body.is-live .sky-chapter .eyebrow,
+.hero .eyebrow,
+body.is-live .power-chapter .eyebrow,
+.performance-code,
+.anatomy-label .anatomy-code,
+.power-numbers .mono,
+.architecture-detail-label p,
+.architecture-detail-label p span,
+body.is-live .architecture-chapter .layer-key li span,
+body.is-live .architecture-chapter .text-link,
+.part-label,
+.world-stops li em,
+.rail-label,
+.journey-rail li .rail-label,
+.journey-rail li .rail-label b,
+.journey-rail li:not(.is-current) .rail-label,
+.journey-rail li:not(.is-current) .rail-label b,
+.journey-rail li.is-current .rail-label,
+.journey-rail li.is-current .rail-label b,
+.bp-label,
+.bp-value,
+.bp-num { font-weight: 400; }
+
+/* Two small swaps ThreeUI made. */
+.fold-detail strong { font-weight: 500; }        /* "Four folding arms." */
+.power-duration dd { font-family: var(--body); } /* "Up to 50 min" */

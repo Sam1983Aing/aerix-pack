@@ -1,0 +1,9 @@
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+p=ROOT/'viewer/review.js';t=p.read_text().replace("'12','13','14'].includes(requested)?requested:'14'","'12','13','14','15'].includes(requested)?requested:'15'")
+t=t.replace("function view(name){if(name==='under_body')", "function view(name){if(name==='top_body')focusObject('BODY_SHELL_TOP',.52,new THREE.Vector3(0,1,.0001));else if(name==='nose_embedded')focusObject('FRONT_VISOR_FRAME',.20,new THREE.Vector3(.22,.40,1));else if(name==='nose_top')focusObject('FRONT_VISOR_FRAME',.29,new THREE.Vector3(0,.95,.65));else if(name==='under_body')")
+t=t.replace("if(version==='13')view('rear_connection');", "if(version==='15')view('top_body');if(version==='13')view('rear_connection');");p.write_text(t)
+p=ROOT/'viewer/index.html';t=p.read_text().replace('DESIGN REVIEW / V14','DESIGN REVIEW / V15').replace('<select id="version">','<select id="version"><option value="15">V15 · Shell &amp; embedded optics</option>')
+t=t.replace('<button data-view="top">Top</button>','<button data-view="top">Top</button><button data-view="top_body" data-min-version="15">Top silhouette</button><button data-view="nose_embedded" data-min-version="15">Embedded lenses</button><button data-view="nose_top" data-min-version="15">Nose from above</button>')
+t=t.replace('aerix-review-v14.glb','aerix-review-v15.glb').replace('V14 refines the belly panel, downward optics, connector, vents, and all four arm undersides.','V15 reshapes the top silhouette, fits the upper chassis and tail, and recesses the front optics into a curved nose.').replace('./review.js?v=14','./review.js?v=15')
+t=t.replace('<p class="muted">Working exterior model.','<a class="button" data-min-version="15" href="../references/titanium-views/19-approved-top-contour-detail.png" target="_blank">Open top reference</a><p class="muted">Working exterior model.');p.write_text(t)

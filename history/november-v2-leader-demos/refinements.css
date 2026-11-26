@@ -1,0 +1,7 @@
+/* Round 2 (Sam, Nov 18): refinements on top of v1. Loads last. */
+
+/* The chapter rail on the right goes. Each chapter already has its own step bar. */
+.journey-rail,
+body.is-live .journey-rail,
+.altimeter,
+.journey-coordinate { display: none !important; }

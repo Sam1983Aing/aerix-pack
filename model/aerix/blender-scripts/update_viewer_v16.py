@@ -1,0 +1,21 @@
+"""Enable the V16 review asset after its export passes validation."""
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+p=ROOT/'viewer/review.js';s=p.read_text()
+s=s.replace("'13','14','15'].includes(requested)?requested:'15'", "'13','14','15','16'].includes(requested)?requested:'16'")
+s=s.replace("function view(name){if(name==='top_body')", "function view(name){if(name==='roof_rear')focusObject('BODY_SHELL_TOP',.46,new THREE.Vector3(.38,.7,-1));else if(name==='roof_side')focusObject('BODY_SHELL_TOP',.50,new THREE.Vector3(1,.04,0));else if(name==='top_body')")
+s=s.replace("if(version==='15')view('top_body');", "if(version==='16'){setLighting('studio');view('body');}if(version==='15')view('top_body');")
+s=s.replace("key.shadow.bias=under?-.0001:-.00002;key.shadow.normalBias=under?.00025:.00008;", "key.shadow.bias=(under||version==='16')?-.0001:-.00002;key.shadow.normalBias=(under||version==='16')?.00025:.00008;")
+p.write_text(s)
+p=ROOT/'viewer/index.html';s=p.read_text()
+s=s.replace('DESIGN REVIEW / V15','DESIGN REVIEW / V16')
+s=s.replace('<option value="15">V15 · Shell &amp; embedded optics</option>', '<option value="16">V16 · Smoother body surfaces</option><option value="15">V15 · Shell &amp; embedded optics</option>')
+s=s.replace('<button data-view="body">Body contours</button>', '<button data-view="body">Body contours</button><button data-view="roof_rear" data-min-version="16">Roof from rear</button><button data-view="roof_side" data-min-version="16">Roof profile</button>')
+s=s.replace('exports/aerix-review-v15.glb','exports/aerix-review-v16.glb').replace('./review.js?v=15.1','./review.js?v=16.1')
+s=s.replace('<p class="muted">Working exterior model.', '<a class="button" data-min-version="16" href="../references/titanium-views/20-approved-roof-surface-detail.png" target="_blank">Open roof reference</a><p class="muted">Working exterior model.')
+s=s.replace('V15 reshapes the top silhouette, fits the upper chassis and tail, and recesses the front optics into a curved nose.', 'V16 reduces roof waviness with a gentler arch, longer shoulder edges, a restrained side outline and clean end transitions. The front optics remain recessed into the nose.')
+p.write_text(s)
+p=ROOT/'viewer/README.md';s=p.read_text().replace('Switch between V15,','Switch between V16, V15,').replace('exports/aerix-review-v15.glb','exports/aerix-review-v16.glb').replace('V15 includes 14 embedded','V16 includes 14 embedded').replace('renders/exterior-v15/','renders/exterior-v16/')
+s+='\nV16 opens on Body contours. Roof from rear and Roof profile expose the simpler shoulder lines and gentler longitudinal arch. Top silhouette and Embedded lenses show the clean outline and revised shell lip. Open roof reference links to the latest user reference. V15 remains in the version selector for comparison.\n';p.write_text(s)
+p=ROOT/'PROJECT-BLUEPRINT.md';s=p.read_text().replace('separate v15 shell and embedded-optics refinement','separate v16 roof surface refinement').replace('blender/aerix-exterior-v15.blend','blender/aerix-exterior-v16.blend').replace('exports/aerix-review-v15.glb','exports/aerix-review-v16.glb')
+s=s.replace('V15 refines the top silhouette, shoulder lines, rounded nose and tail, fitted upper chassis, and recessed front stereo optics.', 'V16 reduces roof waviness with a gentler arch, longer shoulder edges, restrained width transitions and clean nose and tail lips. It retains the fitted upper chassis and recessed front stereo optics.').replace('using Top silhouette, Embedded lenses and Nose from above; V14 remains available for comparison.', 'using Body contours, Roof from rear, Roof profile and Embedded lenses; V15 remains available for comparison.');p.write_text(s)

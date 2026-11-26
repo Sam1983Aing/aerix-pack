@@ -1,0 +1,22 @@
+/* ThreeUI polish, layer 2 of 4: finale fit for short desktop windows. */
+/* Keep the purchase controls and replay above the footer in short desktop previews. */
+@media (min-width: 761px) and (min-aspect-ratio: 13/10) and (max-height: 850px) {
+  body.is-live .finale .arrival-copy { width: min(460px, 44%); }
+  body.is-live .finale h2 { font-size: 34px; }
+  body.is-live .finale .purchase-panel { margin-top: 16px; }
+  body.is-live .finale .finish-features {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px; margin-top: 12px; padding-top: 10px;
+  }
+  body.is-live .finale .finish-features li { gap: 6px; padding: 6px; font-size: 12px; }
+  body.is-live .finale .finish-features i.ui-tile { --tile: 26px; }
+  body.is-live .finale .purchase-price { margin-top: 14px; padding-top: 12px; }
+  body.is-live .finale .purchase-actions {
+    display: grid; grid-template-columns: .8fr 1.2fr;
+    gap: 8px; margin-top: 12px; max-width: none;
+  }
+  body.is-live .finale .purchase-actions .pill-button,
+  body.is-live .finale .purchase-actions .detail-button { padding: 12px; font-size: 13px; gap: 8px; }
+  body.is-live .finale .replay { margin-top: 12px; }
+  body.is-live .final-footer { padding-top: 0; }
+}

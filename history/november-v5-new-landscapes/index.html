@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0b111a" />
+    <meta
+      name="description"
+      content="AERIX. An ascent through form, engineering and perspective. An independent camera drone design study."
+    />
+    <title>AERIX — Ascent</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="./assets/fonts/michroma.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="./assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="./styles.css?v=7" />
+    <link rel="stylesheet" href="./ui-refresh.css?v=5" />
+    <link rel="stylesheet" href="./finale-fit.css?v=5" />
+    <link rel="stylesheet" href="./utilities.css?v=5" />
+    <link rel="stylesheet" href="./streaming.css?v=5" />
+    <link rel="stylesheet" href="./keep-fonts.css?v=5" />
+    <link rel="stylesheet" href="./refinements.css?v=22" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.min.js",
+          "three/addons/": "./vendor/three/addons/"
+        }
+      }
+    </script>
+    <script src="./vendor/gsap.min.js" defer></script>
+    <script src="./vendor/ScrollTrigger.min.js" defer></script>
+    <script src="./vendor/lenis.min.js" defer></script>
+  </head>
+  <body class="is-static" data-render-mode="static">
+    <a class="skip" href="#architecture">Skip to the design</a>
+    <header class="site-header">
+      <a href="#top" class="wordmark" aria-label="AERIX home"
+        >AERIX<span>®</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#ascent">Ascent</a><a href="#architecture">Architecture</a
+        ><a href="#perspective">Perspective</a>
+      </nav>
+      <button class="header-explore" data-explore>
+        Explore the object <span aria-hidden="true"><svg class="explore-drone" viewBox="0 0 24 24"><path class="explore-arms" d="M7.4 7.4 L16.6 16.6 M16.6 7.4 L7.4 16.6"/><g class="explore-rotor"><circle cx="6" cy="6" r="3.3"/><path class="explore-blade" d="M3.4 6 H8.6"/></g><g class="explore-rotor"><circle cx="18" cy="6" r="3.3"/><path class="explore-blade" d="M15.4 6 H20.6"/></g><g class="explore-rotor"><circle cx="6" cy="18" r="3.3"/><path class="explore-blade" d="M3.4 18 H8.6"/></g><g class="explore-rotor"><circle cx="18" cy="18" r="3.3"/><path class="explore-blade" d="M15.4 18 H20.6"/></g><rect class="explore-body" x="9.3" y="8.4" width="5.4" height="7.2" rx="1.8"/><circle class="explore-lens" cx="12" cy="9.9" r="0.9"/></svg></span>
+      </button>
+    </header>
+    <div id="visual-stage" aria-hidden="true">
+      <div id="canvas-mount"></div>
+      <div id="model-labels" aria-hidden="true"></div>
+      <div id="performance-labels" aria-hidden="true"></div>
+    </div>
+    <div class="optical-glass" aria-hidden="true">
+      <div class="glass-edge"></div>
+      <span class="glass-corner tl"></span><span class="glass-corner tr"></span
+      ><span class="glass-corner bl"></span
+      ><span class="glass-corner br"></span>
+      <div class="pov-horizon"><i></i><span>⊕</span><i></i></div>
+      <span class="optical-meta">AERIX / OPTICAL VIEW</span
+      ><span class="optical-meta right">PERSPECTIVE 01</span>
+    </div>
+    <div class="lens-transition" aria-hidden="true"><div></div></div>
+    <aside class="altimeter" aria-label="Journey progress">
+      <span class="altimeter-label">ASCENT</span>
+      <div class="altimeter-track"><i></i></div>
+      <span id="altitude">00</span><span class="altimeter-unit">/ 08</span>
+    </aside>
+    <nav class="journey-rail" aria-label="Chapters">
+      <div class="journey-rail-track" aria-hidden="true"><i class="journey-rail-fill"></i></div>
+      <ol>
+        <li style="--i:0"><a href="#top"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>00 / 08</b>Pre-flight</span></a></li>
+        <li style="--i:1"><a href="#ascent"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>01 / 08</b>Departure</span></a></li>
+        <li style="--i:2"><a href="#architecture"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>02 / 08</b>Anatomy</span></a></li>
+        <li style="--i:3"><a href="#power"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>03 / 08</b>Energy</span></a></li>
+        <li style="--i:4"><a href="#control"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>04 / 08</b>Intelligence</span></a></li>
+        <li style="--i:5"><a href="#optics"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>05 / 08</b>Optical axis</span></a></li>
+        <li style="--i:6"><a href="#perspective"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>06 / 08</b>First person</span></a></li>
+        <li style="--i:7"><a href="#sky"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>07 / 08</b>Open sky</span></a></li>
+        <li style="--i:8"><a href="#finale"><span class="rail-node" aria-hidden="true"></span><span class="rail-label"><b>08 / 08</b>Further</span></a></li>
+      </ol>
+    </nav>
+    <div class="journey-coordinate mono" aria-hidden="true">
+      <span id="phase-name">PRE-FLIGHT</span
+      ><span id="phase-number">00.00</span>
+    </div>
+    <main id="experience">
+      <section class="chapter hero" id="top" data-chapter="0">
+        <div class="copy">
+          <p class="eyebrow">00 / READY FOR DEPARTURE</p>
+          <h1 class="hero-title" aria-label="ASCENT">
+            <span class="hero-title-sizer" aria-hidden="true">ASCENT</span>
+            <span class="hero-title-drum" aria-hidden="true">
+              <span class="hero-title-face hero-title-prompt" style="--face: 0"
+                >READY FOR?</span
+              >
+              <span class="hero-title-face hero-title-prompt" style="--face: 1"
+                >TAKE OFF</span
+              >
+              <span class="hero-title-face" style="--face: 2">ASCENT</span>
+            </span>
+          </h1>
+          <div class="hero-subline mono">
+            <div class="hero-finish-picker">
+              <span class="hero-finish-name" data-finish-name>Titanium Blue</span>
+              <fieldset class="hero-finish-options" data-finish-options>
+                <legend class="sr-only">Choose your drone finish</legend>
+              </fieldset>
+            </div>
+            <span>AERIX / 001</span>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v4-hero.webp"
+          alt="AERIX titanium drone on a circular launch platform"
+          width="1800"
+          height="1350"
+          fetchpriority="high"
+        />
+        <div class="hero-bottom">
+          <button class="hero-title-skip mono" hidden>
+            Skip reveal <span>↗</span>
+          </button>
+          <span class="mono">SCULPTED FOR THE SKY.<br />CONSIDERED WITHIN.</span
+          ><a href="#ascent" class="scroll-cue"
+            ><i></i>SCROLL TO ASCEND <span>↑</span></a
+          ><span class="mono">AERIX — 001<br />READY TO RISE</span>
+        </div>
+      </section>
+      <section
+        class="chapter flight-chapter glass-chapter"
+        id="ascent"
+        data-chapter="1"
+      >
+        <div class="flight-deck" aria-label="Freedom by design">
+          <div class="flight-window">
+            <div class="flight-track">
+              <article class="copy flight-card flight-card-journey" data-flight-card>
+                <i class="ui-tile card-tile" aria-hidden="true"><img src="./assets/icons/route.webp" alt="" /></i>
+                <p class="eyebrow">01 / FREEDOM, BY DESIGN</p>
+                <h2>Take the<br /> long way home.</h2>
+                <p class="lede">
+                  A new perspective on the places you thought you knew.
+                  Make room for the unexpected.
+                </p>
+                <div class="journey-detail" aria-hidden="true">
+                  <span class="bp bp-route-wrap" aria-hidden="true"><img class="blueprint bp-route" src="./assets/blueprints/route-plan.webp" alt="" width="404" height="132" /><span class="bp-value is-first" style="left:0%">THE FAMILIAR</span><span class="bp-value is-last" style="left:100%">WHAT'S NEXT</span></span>
+                  <div class="mono"><span>THE FAMILIAR</span><span>WHAT'S NEXT</span></div>
+                </div>
+              </article>
+              <article class="copy flight-card flight-card-fold" data-flight-card>
+                <i class="ui-tile card-tile" aria-hidden="true"><img src="./assets/icons/folding-arm.webp" alt="" /></i>
+                <p class="eyebrow">02 / DESIGNED TO GO WITH YOU</p>
+                <h2>More sky.<br /> Less to carry.</h2>
+                <p class="lede">Unfold for the sky. Fold close for the journey.</p>
+                <div class="fold-detail"><img class="blueprint bp-fold" src="./assets/blueprints/fold-plan.webp" alt="" width="192" height="186" /><span class="fold-number" aria-hidden="true">04</span><p><strong>Four folding arms.</strong><span>One compact silhouette.</span></p></div>
+              </article>
+              <article class="copy flight-card flight-card-optics" data-flight-card>
+                <i class="ui-tile card-tile" aria-hidden="true"><img src="./assets/icons/camera-body.webp" alt="" /></i>
+                <p class="eyebrow">03 / A VIEW OF ITS OWN</p>
+                <h2>Let the<br /> view lead.</h2>
+                <div class="optical-detail">
+                  <span class="bp bp-gimbal-wrap" aria-hidden="true"><img class="blueprint bp-gimbal" src="./assets/blueprints/gimbal-axes.webp" alt="" width="160" height="191" /></span>
+                  <div><p class="optical-title">A dedicated gimbal.</p><p class="optical-description">Suspended beneath the airframe.<br />The camera takes the foreground.</p></div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="flight-pagination mono" aria-hidden="true">
+            <span><b data-flight-number>01</b> / 03</span>
+            <span class="flight-steps"><i></i><i></i><i></i></span>
+            <span>THREE REASONS TO RISE</span>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v4-sky.webp"
+          alt="AERIX rising from the launch platform"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section
+        class="chapter architecture-chapter"
+        id="architecture"
+        data-chapter="2"
+      >
+        <div class="copy">
+          <p class="eyebrow">02 / ANATOMY OF AERIX</p>
+          <h2>Everything.<br />In its place.</h2>
+          <p class="lede">
+            Four systems. One considered whole. Meet the engineering beneath the
+            silhouette.
+          </p>
+          <div class="architecture-detail">
+            <div class="architecture-detail-label">
+              <i class="ui-tile" aria-hidden="true"><img src="./assets/icons/layers.webp" alt="" /></i>
+              <p class="mono">FOUR SYSTEMS<br /><span>ONE FLIGHT ARCHITECTURE</span></p>
+            </div>
+            <h3>Built around each other.</h3>
+            <p class="architecture-detail-note">
+              Power, cooling and control share a fitted foundation. Thoughtful
+              spacing and routed connections bring every layer into one
+              coordinated whole.
+            </p>
+          </div>
+          <ol class="layer-key" aria-label="Four layers of AERIX">
+            <li data-layer="battery">
+              <i class="ui-tile" aria-hidden="true"><img src="./assets/icons/battery-pack.webp" alt="" /></i>
+              <span>01 / BATTERY</span><strong>Battery cartridge.</strong>
+              <p>Four cells, protected together in one fitted power cartridge.</p>
+            </li>
+            <li data-layer="thermal">
+              <i class="ui-tile" aria-hidden="true"><img src="./assets/icons/fins.webp" alt="" /></i>
+              <span>02 / THERMAL</span><strong>Room to breathe.</strong>
+              <p>Finned metal gives heat a dedicated path away from the core.</p>
+            </li>
+            <li data-layer="computer">
+              <i class="ui-tile" aria-hidden="true"><img src="./assets/icons/chip-pins.webp" alt="" /></i>
+              <span>03 / FLIGHT COMPUTER</span><strong>Order at the core.</strong>
+              <p>Shielded electronics. Routed connections. One coordinated flight core.</p>
+            </li>
+            <li data-layer="tray">
+              <i class="ui-tile" aria-hidden="true"><img src="./assets/icons/tray.webp" alt="" /></i>
+              <span>04 / STRUCTURE</span><strong>A place for every part.</strong>
+              <p>A fitted foundation supports every system beneath the shell.</p>
+            </li>
+          </ol>
+          <button class="text-link" data-explore>
+            Inspect every layer <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v4-exploded.webp"
+          alt="Exterior shell and four interior layers of AERIX, separated vertically"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter flight-bridge" aria-hidden="true">
+        <span class="bridge-caption mono">ONE COMPLETE VISION</span>
+      </section>
+      <section
+        class="chapter chapter--right power-chapter glass-chapter"
+        id="power"
+        data-chapter="3"
+      >
+        <div class="power-deck" aria-label="Inside the power cartridge">
+        <div class="copy" data-power-card="overview">
+          <p class="eyebrow">03 / THE ENERGY INSIDE</p>
+          <h2>The freedom<br />starts within.</h2>
+          <p class="lede">
+            A four-cell power assembly, housed in a fitted cartridge. Protected
+            contacts and neatly routed connections turn a complex interior into
+            one purposeful unit.
+          </p>
+          <p class="detail-note mono">PROTECTED CONTACTS · FITTED HOUSING</p>
+        </div>
+        <div class="copy power-technical" data-power-card="technical">
+          <p class="eyebrow">03 / INSIDE THE POWER CARTRIDGE</p>
+          <h3>Power.<br /> Layer by layer.</h3>
+          <div class="power-numbers" aria-label="Battery construction">
+            <div><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/foil-stack.webp" alt="" /></i><strong>04</strong><span class="mono">FOIL CELLS</span></div>
+            <div><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/cartridge-box.webp" alt="" /></i><strong>01</strong><span class="mono">FITTED CARTRIDGE</span></div>
+          </div>
+          <dl class="power-specifications">
+            <div><dt><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/layers.webp" alt="" /></i>Cell construction</dt><dd>Stacked foil pouches with sealed edges.</dd></div>
+            <div><dt><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/connector.webp" alt="" /></i>Power interface</dt><dd>Recessed multi-pin contacts and routed internal leads.</dd></div>
+            <div class="power-duration"><dt><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/stopwatch.webp" alt="" /></i>Flight time target</dt><dd>Up to 50 min</dd></div>
+          </dl>
+        </div>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v43-battery.webp"
+          alt="Exploded battery cartridge with four foil cells and lid"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section
+        class="chapter control-chapter glass-chapter"
+        id="control"
+        data-chapter="4"
+      >
+        <div class="control-deck" aria-label="Inside the flight computer">
+        <div class="copy" data-control-card="overview">
+          <p class="eyebrow">04 / THE QUIET INTELLIGENCE</p>
+          <h2>Complexity.<br />Considered.</h2>
+          <p class="lede">
+            Your view begins with the details you never see. Shielded
+            components, copper traces and carefully placed connectors bring the
+            flight computer together.
+          </p>
+          <div class="material-key mono">
+            <i></i> COPPER / GRAPHITE / ALUMINUM
+          </div>
+        </div>
+        <div class="copy control-detail" data-control-card="detail">
+          <p class="eyebrow">04 / ENGINEERED CONNECTIONS</p>
+          <h3>Every detail.<br /> Connected.</h3>
+          <dl class="circuit-details">
+            <div>
+              <dt><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/chip-pins.webp" alt="" /></i><span aria-hidden="true">01</span> Copper pathways</dt>
+              <dd>Fine traces link the processor, memory and components.</dd>
+            </div>
+            <div>
+              <dt><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/tower-shield.webp" alt="" /></i><span aria-hidden="true">02</span> Shielded modules</dt>
+              <dd>Fitted metal covers protect the electronics beneath.</dd>
+            </div>
+            <div>
+              <dt><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/connector.webp" alt="" /></i><span aria-hidden="true">03</span> Purposeful connections</dt>
+              <dd>Keyed sockets and routed leads keep connections ordered.</dd>
+            </div>
+          </dl>
+        </div>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v44-computer.webp"
+          alt="Flight computer with its shield, processor cap, soldermask and traces"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+        <ol class="performance-source" aria-label="Flight computer performance architecture">
+          <li data-part="radio"><span>01 / RADIO SHIELD</span><strong>A cleaner signal path.</strong><p>Shielding separates the radio assembly from surrounding electronics, helping manage onboard interference.</p></li>
+          <li data-part="processor"><span>02 / PROCESSOR HEAT SPREADER</span><strong>Keep the core composed.</strong><p>A metal cap spreads processor heat toward the cooling layer, supporting thermal management at the core.</p></li>
+          <li data-part="imu"><span>03 / MOTION SENSING</span><strong>Know every movement.</strong><p>The dedicated IMU supplies motion and orientation measurements for flight control.</p></li>
+          <li data-part="m2"><span>04 / M2 MEMORY</span><strong>A coordinated memory pair.</strong><p>M2 complements M1 in the local memory layout, connected to the processor through fine copper traces.</p></li>
+          <li data-part="m1"><span>05 / M1 MEMORY</span><strong>Working data, nearby.</strong><p>A memory package beside the processor keeps working data close to the flight core.</p></li>
+        </ol>
+      </section>
+      <section
+        class="chapter optics-chapter glass-chapter"
+        id="optics"
+        data-chapter="5"
+      >
+        <div class="optics-cards" role="group" aria-label="The optical assembly and the path of light">
+          <article class="copy optics-overview" data-optics-card>
+            <p class="eyebrow">05 / THE OPTICAL ASSEMBLY</p>
+            <h2>Made around<br />your point of view.</h2>
+            <span class="bp bp-lenses-wrap" aria-hidden="true"><img class="blueprint bp-lenses" src="./assets/blueprints/lens-stack.webp" alt="" width="222" height="140" /></span>
+            <p class="lede">A complete optical assembly, suspended in its own gimbal. Every layer leads to the image you came for.</p>
+            <span class="detail-note mono"><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/lens-pair.webp" alt="" /></i>CONTINUE INTO THE LENS <span>↑</span></span>
+          </article>
+          <article class="copy optics-path-card" data-optics-card>
+            <p class="eyebrow">05 / THE PATH OF LIGHT</p>
+            <h3>From light to image.</h3>
+            <span class="bp bp-optics-wrap" aria-hidden="true"><img class="blueprint bp-optics" src="./assets/blueprints/optics-path.webp" alt="" width="520" height="119" /></span>
+            <ol class="optics-path-steps">
+              <li><strong>Glass</strong><p>Focus incoming light.</p></li>
+              <li><strong>Iris</strong><p>Shape the opening.</p></li>
+              <li><strong>Sensor</strong><p>Turn light into image data.</p></li>
+            </ol>
+          </article>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v4-optics.webp"
+          alt="Camera pod, lens elements, iris, filter and sensor separated along the optical axis"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter pov-chapter" id="perspective" data-chapter="6">
+        <div class="copy">
+          <p class="eyebrow">06 / YOU ARE THE POINT OF VIEW</p>
+          <h2>Find your<br />extraordinary.</h2>
+          <p class="lede">Some places change the way you see everything.</p>
+          <div class="perspective-axis mono">
+            <span>AERIX / THROUGH THE LENS</span>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/flight-city-v4.14.webp"
+          alt="The city lights from AERIX's optical point of view"
+          width="1672"
+          height="941"
+          loading="lazy"
+        /><span class="spatial-word word-left" aria-hidden="true">NEAR</span
+        ><span class="spatial-word word-right" aria-hidden="true"></span>
+      </section>
+      <section
+        class="chapter sky-chapter glass-chapter"
+        id="sky"
+        data-chapter="7"
+      >
+        <div class="copy flight-world-panel">
+          <div class="world-intro">
+            <p class="eyebrow">07 / A DIFFERENT ALTITUDE</p>
+            <h2>A different kind <br />of freedom.</h2>
+          </div>
+          <div class="world-itinerary">
+            <div class="world-captions">
+              <div data-world="0"><p class="world-name">Glacial heights</p><p class="lede">Follow the light beyond the ridgeline.</p></div>
+              <div data-world="1"><p class="world-name">Into the evergreen</p><p class="lede">A familiar world. An entirely new scale.</p></div>
+              <div data-world="2"><p class="world-name">Somewhere beyond</p><p class="lede">Follow the coastline. Find your own escape.</p></div>
+              <div data-world="3"><p class="world-name">Above the everyday</p><p class="lede">A thousand stories. A different point of view.</p></div>
+            </div>
+            <ol class="world-stops" aria-label="Flight landscapes">
+              <li class="is-current"><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/mountains.webp" alt="" /></i><em><span>01</span> Mountains</em></li>
+              <li><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/evergreen.webp" alt="" /></i><em><span>02</span> Evergreen</em></li>
+              <li><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/coastline.webp" alt="" /></i><em><span>03</span> Coastline</em></li>
+              <li><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/skyline.webp" alt="" /></i><em><span>04</span> Metropolis</em></li>
+            </ol>
+          </div>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v4-sky.webp"
+          alt="AERIX in flight above a glacial valley"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+      </section>
+      <section class="chapter finale" id="finale" data-chapter="8">
+        <div class="copy arrival-copy">
+          <p class="eyebrow">AERIX 001 / MAKE IT YOURS</p>
+          <h2>Your next<br />point of view.</h2>
+          <div class="purchase-panel">
+            <div class="finish-heading"><span class="mono">YOUR FINISH</span><strong data-finish-name>Titanium Blue</strong></div>
+            <fieldset class="finish-options" data-finish-options><legend class="sr-only">Choose your drone finish</legend></fieldset>
+            <p class="finish-note">One sculpted shell. Five distinct expressions.</p>
+            <ul class="finish-features" aria-label="Highlights"><li><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/stopwatch.webp" alt="" /></i><span>Up to<br /><b>50 min</b></span></li><li><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/folding-arm.webp" alt="" /></i><span>Folds<br /><b>compact</b></span></li><li><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/gimbal-cam.webp" alt="" /></i><span>Dedicated<br /><b>gimbal</b></span></li></ul>
+            <div class="purchase-price"><span>From <strong data-finish-price>$2,499 USD</strong></span><small>Concept pricing</small></div>
+            <div class="purchase-actions"><button class="pill-button preorder-button" data-preorder>Pre-order</button><button class="detail-button" data-explore>Discover every detail</button></div>
+          </div>
+          <a class="replay mono" href="#top"><i class="ui-tile" aria-hidden="true"><img src="./assets/icons/replay-ring.webp" alt="" /></i>EXPERIENCE IT AGAIN</a>
+        </div>
+        <img
+          class="chapter-poster"
+          data-aerix-src="./assets/v4-hero.webp"
+          alt="The complete AERIX camera drone on its launch platform"
+          width="1800"
+          height="1350"
+          loading="lazy"
+        />
+        <div class="final-footer">
+          <a href="#top" class="wordmark">AERIX</a
+          ><span><span class="mono">AERIX 001</span><span class="sep" aria-hidden="true">•</span>Product concept <span class="sep" aria-hidden="true">•</span>© 2026</span>
+        </div>
+      </section>
+    </main>
+    <dialog id="preorder" aria-labelledby="preorder-title" data-lenis-prevent>
+      <button id="close-preorder" class="dialog-close" aria-label="Close pre-order preview">×</button>
+      <form id="preorder-form">
+        <p class="eyebrow">AERIX 001 / PRE-ORDER PREVIEW</p>
+        <h2 id="preorder-title">Make it yours.</h2>
+        <p class="preorder-intro">Choose the finish for your next point of view.</p>
+        <fieldset class="preorder-finishes" data-finish-options><legend>Choose your finish</legend></fieldset>
+        <div class="order-summary"><div><span>AERIX 001</span><strong data-finish-name>Titanium Blue</strong></div><strong data-finish-price>$2,499 USD</strong></div>
+        <p class="order-disclosure">Concept price. This preview saves your configuration on this device. It does not place an order or collect payment.</p>
+        <button class="pill-button" id="save-configuration" type="submit">Save my configuration</button>
+        <p id="preorder-status" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
+    <div class="bottom-tools">
+      <span class="mono scroll-hint" aria-hidden="true"><i class="ui-key"><img src="./assets/icons/mouse.webp" alt="" /></i><i class="ui-key"><img src="./assets/icons/chevrons-updown.webp" alt="" /></i><span>SCROLL OR USE ARROW KEYS</span></span>
+      <div id="load-status" role="status" hidden>
+        Preparing the view <span id="load-progress"></span>
+      </div>
+    </div>
+    <div
+      id="awakening"
+      hidden
+      role="region"
+      aria-label="AERIX power-on introduction"
+      tabindex="-1"
+    >
+      <div class="boot-brand">
+        <span class="boot-wordmark">AERIX</span>
+        <div class="boot-status mono" id="boot-message" aria-hidden="true">
+          <div class="boot-status-drum">
+            <span class="boot-status-face" style="--face:0">POWERING ON</span>
+            <span class="boot-status-face" style="--face:1">STARTING MOTORS</span>
+            <span class="boot-status-face" style="--face:2">CALIBRATING LIGHT</span>
+          </div>
+        </div>
+        <span id="boot-percent" class="mono" aria-hidden="true">00</span>
+      </div>
+      <span id="boot-status" role="status" aria-live="polite">POWERING ON</span>
+    </div>
+    <dialog id="explorer" aria-labelledby="explorer-title">
+      <div class="explorer-header">
+        <h2 id="explorer-title">AERIX / In detail</h2>
+        <button id="close-explorer" aria-label="Close 3D explorer">
+          Close <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div id="explorer-stage">
+        <p id="explorer-status" role="status">Opening the view…</p>
+      </div>
+      <div class="explorer-controls" role="group" aria-label="View assembly">
+        <button data-pose="flight" aria-pressed="true">Flight</button
+        ><button data-pose="exploded">Architecture</button
+        ><button data-pose="battery">Battery</button
+        ><button data-pose="thermal">Thermal</button
+        ><button data-pose="computer">Computer</button
+        ><button data-pose="tray">Tray</button
+        ><button data-pose="optics">Optics</button
+        ><button data-pose="folded">Folded</button>
+      </div>
+      <p class="explorer-help">
+        Drag to rotate · Scroll to zoom · Arrow keys to turn · + / − to zoom
+      </p>
+    </dialog>
+    <noscript
+      ><style>
+        .bottom-tools,
+        .altimeter,
+        .journey-coordinate,
+        [data-explore] {
+          display: none;
+        }
+      </style></noscript
+    >
+    <script type="module" src="./main.js?v=17"></script>
+    <!-- ThreeUI polish scripts. Deferred, so they run after main.js in this order. -->
+    <script>
+      // Static-mode posters load only if the page falls back to static mode. The live WebGL
+      // page hides them, so it never downloads them.
+      window.__aerixResolvePosters = () => {
+        if (document.body.classList.contains("has-posters")) return;
+        document.body.classList.add("has-posters");
+        document.querySelectorAll("[data-aerix-src]").forEach((image) => {
+          image.src = new URL(image.dataset.aerixSrc, document.baseURI).href;
+        });
+      };
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) window.__aerixResolvePosters();
+    </script>
+    <script defer src="./js/polish/ui-refresh.js?v=6"></script>
+    <script defer src="./js/polish/motion.js?v=12"></script>
+    <script defer src="./js/polish/shader-buttons.js?v=5"></script>
+    <script defer src="./js/polish/nav-hover.js?v=1"></script>
+  </body>
+</html>

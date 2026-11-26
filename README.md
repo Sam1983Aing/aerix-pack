@@ -14,8 +14,12 @@ Or download the repo and open `index.html`. Everything also opens from your disk
 |---|---|---|
 | The landing page | `AERIX.html` | The AERIX page as one file. Double-click it. Online: [the live page](https://sam1983aing.github.io/aerix-pack/page/). |
 | Its source | `page/` | The same page as plain HTML, CSS and JavaScript, no build step. |
+| The AERIX model | `page/assets/model/` | The drone on the landing page, built in Blender with GPT-6 Astra in September. |
+| Its Blender scripts | `model/aerix/blender-scripts/` | The Python scripts that built AERIX, from the grey blockout to the finished interior. |
+| Its concept images | `model/aerix/concepts/` | The three AI concepts it started from, with the prompt for each. |
 | The RILL model | `model/RILL-viewer.html`, `model/rill.glb` | The drone GPT-6.2 Astra built in Blender, with its fold animation. |
-| The Blender scripts | `model/blender-scripts/` | The Python scripts that built RILL, one per version, V01 to V14c. |
+| RILL's Blender scripts | `model/blender-scripts/` | The Python scripts that built RILL, one per version from V01 to V18, with the checks and reviews between them. |
+| Every version of the page | `history/` | The code of each version, September V1 to V4.17.1 and November v1 to v6, so you can follow how the page grew. |
 | Vocabulary | `sheets/vocabulary.html` | 21 techniques from the page with a copy-paste prompt for each. |
 | Prompts | `sheets/prompts.html` | The starter prompt, the Higgsfield world prompts with settings and cost, and every message that built RILL. |
 
@@ -45,9 +49,23 @@ To bring video back, put a 16:9 MP4 in `page/assets/worlds/clips/` and set `clip
 - `page/js/part-pins.js` draws the numbered pins. `page/js/finishes.js` lists the five finishes.
 - `page/assets/model/` is the AERIX drone, split so a light version shows first and the rest streams in (`manifest.json`).
 
-## About RILL and the scripts
+## The two drones and their scripts
 
-RILL was built from the measurements of a real foldable camera drone, then given its own design and name. The scripts show how GPT-6.2 Astra built it, version by version, from a grey blockout to the finished outside. They expect the project's folder layout and reference files, which aren't included, so read them to learn the method rather than to run them as they are. Blender 5.2.
+**AERIX** is the drone on the landing page. It started from one AI concept image (the three options are in `model/aerix/concepts/`), and GPT-6 Astra built it in Blender in September: a grey blockout, then the outside, then the folding arms, the battery, the flight core and the interior, each step a script in `model/aerix/blender-scripts/`. The finished model is the one the page streams from `page/assets/model/`.
+
+**RILL** was built two months later from the measurements of a real foldable camera drone, then given its own design and name. The scripts show how GPT-6.2 Astra built it, version by version, from a grey blockout to the finished outside. The viewer shows V14c, and V15 to V18 carry on with the shell, the finish and the artwork.
+
+Both sets of scripts expect the project's folder layout and reference files, which aren't included, so read them to learn the method rather than to run them as they are. Blender 5.2.
+
+## Every version of the page
+
+`history/` keeps the code of every saved version, in order:
+
+- `september-v1` to `september-v3`, then `september-v4.17.1`: the first page, built with GPT-6 Astra.
+- `november-v1-threeui-port`: the September page with its ThreeUI polish.
+- `november-v2-leader-demos` to `november-v6-4k-clips`: leader lines, the world clips, numbered pins and card reveals, round by round. `november-v6` is the page in `page/`, with video worlds.
+
+It's code only (HTML, CSS and JavaScript). The models, images and libraries live once in `page/`, so open these folders to read and compare, and run the page from `page/`.
 
 ## Credits and licences
 

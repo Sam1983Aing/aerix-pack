@@ -1,0 +1,6 @@
+/* ThreeUI polish, layer 4 of 4: poster and status shown while the hero model streams in. */
+        #canvas-mount .aerix-streaming-poster { position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:none;pointer-events:none; }
+        #canvas-mount .aerix-streaming-status { display:none;position:absolute;bottom:12%;left:50%;transform:translateX(-50%);max-width:80%;padding:8px 12px;border-radius:4px;background:#0a1527dc;text-align:center;font:11px monospace;color:#b7cee0; }
+        #canvas-mount.is-streaming>canvas { visibility:hidden; }
+        #canvas-mount.is-streaming .aerix-streaming-poster,#canvas-mount.is-streaming .aerix-streaming-status { display:block; }
+        
